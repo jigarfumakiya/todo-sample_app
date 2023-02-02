@@ -11,11 +11,15 @@ class AppTheme {
   static ThemeData get theme {
     ThemeData base = ThemeData.dark();
     return base.copyWith(
+      primaryColor: Colors.blue,
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          foregroundColor: Colors.white, backgroundColor: Colors.blue),
       backgroundColor: AppColors.primaryColor,
       scaffoldBackgroundColor: AppColors.primaryColor,
       cardColor: AppColors.primaryColor,
+      dialogBackgroundColor: AppColors.primaryColor,
       textTheme: GoogleFonts.interTextTheme().copyWith(
-        headline1: AppTextStyles.font93w300(),
+        headline1: AppTextStyles.font30w300(),
         headline2: AppTextStyles.font58w300(),
         headline3: AppTextStyles.font46w400(),
         headline4: AppTextStyles.font33w400(),

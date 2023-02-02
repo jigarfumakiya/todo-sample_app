@@ -5,7 +5,7 @@ import 'package:todo_sample_app/core/extensions/screen_utils.dart';
 import 'app_colors.dart';
 
 class AppTextStyles {
-  AppTextStyles();
+  AppTextStyles._();
 
   // Font Family text style
   static TextStyle font15w500() {
@@ -63,11 +63,11 @@ class AppTextStyles {
         letterSpacing: 1.25);
   }
 
-  static TextStyle font93w300() {
+  static TextStyle font30w300() {
     return _interFont(
       color: AppColors.gainsboroColor,
-      fontSize: 93,
-      fontWeight: FontWeight.w300,
+      fontSize: 30,
+      fontWeight: FontWeight.w700,
       letterSpacing: -1.5,
     );
   }

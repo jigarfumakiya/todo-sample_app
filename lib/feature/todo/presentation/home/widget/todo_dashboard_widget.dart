@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_sample_app/core/app/app_colors.dart';
+import 'package:todo_sample_app/feature/todo/presentation/home/widget/date_widget.dart';
 
 class TodoDashboardWidget extends StatelessWidget {
   TodoDashboardWidget({Key? key}) : super(key: key);
@@ -11,7 +12,13 @@ class TodoDashboardWidget extends StatelessWidget {
     textTheme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.primaryColor,
+        backgroundColor: AppColors.independenceColor,
+        elevation: 5,
+        title: Text('Todo'),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
       ),
       body: _buildWidgetBody(context),
     );
@@ -35,18 +42,7 @@ class TodoDashboardWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('March 9, 2020',
-                    style: Theme.of(context).textTheme.headline1),
-                const SizedBox(width: 10),
-                const Icon(
-                  Icons.keyboard_arrow_down_outlined,
-                  color: AppColors.blueColor,
-                ),
-              ],
-            ),
+            DateWidget(onDateChange: onDateChange),
             IconButton(
               onPressed: () {},
               iconSize: 45,
@@ -61,5 +57,10 @@ class TodoDashboardWidget extends StatelessWidget {
         )
       ],
     );
+  }
+
+  /// class method
+  void onDateChange(DateTime dateTime) {
+    print('date change $dateTime');
   }
 }
