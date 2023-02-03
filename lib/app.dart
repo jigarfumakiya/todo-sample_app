@@ -44,9 +44,9 @@ class _TodoAppState extends State<TodoApp> {
               if (state is AppLoading) {
                 return Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const CircularProgressIndicator.adaptive(),
-                    const Text('Checking internet connectivity...')
+                  children: const [
+                    CircularProgressIndicator.adaptive(),
+                    Text('Checking internet connectivity...')
                   ],
                 );
               } else if (state is AppInternetAvailable) {
