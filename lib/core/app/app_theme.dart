@@ -11,13 +11,24 @@ class AppTheme {
   static ThemeData get theme {
     ThemeData base = ThemeData.dark();
     return base.copyWith(
-      primaryColor: Colors.blue,
+      primaryColor: Colors.blueAccent,
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          foregroundColor: Colors.white, backgroundColor: Colors.blue),
-      backgroundColor: AppColors.primaryColor,
+          foregroundColor: Colors.white, backgroundColor: Colors.blueAccent),
       scaffoldBackgroundColor: AppColors.primaryColor,
+
+      // scaffoldBackgroundColor: Colors.white,
       cardColor: AppColors.primaryColor,
       dialogBackgroundColor: AppColors.primaryColor,
+      checkboxTheme: CheckboxThemeData(
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        checkColor: MaterialStateProperty.all(AppColors.independenceColor),
+        fillColor: MaterialStateProperty.all(AppColors.fillColor),
+        side: MaterialStateBorderSide.resolveWith((states) =>
+            const BorderSide(width: 1.0, color: AppColors.gainsboro)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(6),
+        ),
+      ),
       textTheme: GoogleFonts.interTextTheme().copyWith(
         headline1: AppTextStyles.font30w300(),
         headline2: AppTextStyles.font58w300(),
@@ -31,10 +42,6 @@ class AppTheme {
         bodyText2: AppTextStyles.font14w300(),
         caption: AppTextStyles.font12w400(),
         button: AppTextStyles.font13w500Type2(),
-        overline: const TextStyle(
-            color: AppColors.gainsboroColor,
-            fontSize: 10,
-            fontWeight: FontWeight.w400),
       ),
       brightness: Brightness.dark,
       appBarTheme: const AppBarTheme(

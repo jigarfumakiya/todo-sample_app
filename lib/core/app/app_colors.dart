@@ -5,10 +5,18 @@ import 'package:flutter/material.dart';
 // Use proper color name for consistency
 class AppColors {
   //Theme Color
-  static const Color primaryColor = Color(0xFF141419);
-  static const Color fontColor = gainsboroColor;
+  static const Color primaryColor = Color(0xFFF8F8F8);
+  static const Color fontColor = gunmetal;
+  static const Color fillColor = lotion;
+  static const Color headline2Color = independenceColor;
+  static const Color body2Color = grayX11;
 
+  // Color
   static const Color blueColor = Colors.blue;
   static const Color independenceColor = Color(0xFF575767);
-  static const Color gainsboroColor = Color(0xFFE5E5E5);
+  static const Color brightGray = Color(0xFFEBEBEB);
+  static const Color gunmetal = Color(0xFF292B35);
+  static const Color gainsboro = Color(0xFFDADADA);
+  static const Color grayX11 = Color(0xFFBEBEB9);
+  static const Color lotion = Color(0xFFFAFAFA);
 }
