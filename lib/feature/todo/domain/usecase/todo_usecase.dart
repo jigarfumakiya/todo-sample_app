@@ -1,3 +1,6 @@
+import 'package:dartz/dartz.dart';
+import 'package:todo_sample_app/core/exceptions/app_exceptions.dart';
+import 'package:todo_sample_app/feature/todo/data/models/todo_network.dart';
 import 'package:todo_sample_app/feature/todo/domain/repositories/todo_repositorie.dart';
 
 class TodoUseCase {
@@ -7,5 +10,10 @@ class TodoUseCase {
 
   Future<void> getAuthToken() {
     return _todoRepository.getAuthToken();
+  }
+
+  // Get all todos form network
+  Future<Either<Failure, TodoNetwork>> getTodos() {
+    return _todoRepository.getTodo();
   }
 }

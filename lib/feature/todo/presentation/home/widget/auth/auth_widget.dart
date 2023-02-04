@@ -16,13 +16,13 @@ class AuthWidget extends StatelessWidget {
         bloc: todoCubit,
         builder: (context, state) {
           if (state is AuthLoading) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (state is AuthFailed) {
-            return Text('Auth is Failed');
+            return const Center(child: Text('Auth is Failed'));
           } else if (state is AuthCompleted) {
             return TodoDashboardWidget();
           }
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );

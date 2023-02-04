@@ -1,6 +1,7 @@
 import 'package:todo_sample_app/core/app/app_constant.dart';
 import 'package:todo_sample_app/core/exceptions/app_exceptions.dart';
 import 'package:todo_sample_app/core/network/dio_service.dart';
+import 'package:todo_sample_app/feature/todo/data/models/todo_network.dart';
 
 abstract class TodoRemoteSource {
   // This should be in there own repo, usecase and other stuff
@@ -9,7 +10,7 @@ abstract class TodoRemoteSource {
 
   Future<dynamic> getCategories();
 
-  Future<dynamic> getTodo();
+  Future<TodoNetwork> getTodo();
 
   Future<dynamic> addTodo();
 }
@@ -17,8 +18,11 @@ abstract class TodoRemoteSource {
 class TodoEndpoints {
   // again this should be in there own repo
   // Repo that contains all auth related operations
+  static const _todoBaseUrl =
+      'https://firestore.googleapis.com/v1/projects/applaudo-todo-app/databases/(default)/documents';
   static const loginWithCredential =
       'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword';
+  static const getTodo = '$_todoBaseUrl/tasks/';
 }
 
 class TodoRemoteSourceImpl implements TodoRemoteSource {
@@ -65,8 +69,17 @@ class TodoRemoteSourceImpl implements TodoRemoteSource {
   }
 
   @override
-  Future getTodo() {
-    // TODO: implement getTodo
-    throw UnimplementedError();
+  Future<TodoNetwork> getTodo() async {
+    try {
+      final queryParams = {'key': firebaseApiKey};
+      final response = await dioService.get(
+        TodoEndpoints.getTodo,
+        queryParameters: queryParams,
+      );
+      final responseMap = (response.data as Map<String, dynamic>);
+      return TodoNetwork.fromJson(responseMap);
+    } catch (e, s) {
+      throw ServerException();
+    }
   }
 }

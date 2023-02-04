@@ -7,7 +7,7 @@ import 'package:todo_sample_app/app_cubit.dart';
 import 'package:todo_sample_app/core/app/app_assets.dart';
 import 'package:todo_sample_app/core/app/app_theme.dart';
 import 'package:todo_sample_app/core/injector/injection_container.dart';
-import 'package:todo_sample_app/feature/todo/presentation/home/widget/auth_widget.dart';
+import 'package:todo_sample_app/feature/todo/presentation/home/widget/auth/auth_widget.dart';
 
 class TodoApp extends StatefulWidget {
   const TodoApp({super.key});
