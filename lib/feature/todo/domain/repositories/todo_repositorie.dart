@@ -12,4 +12,6 @@ abstract class TodoRepository {
   Future<Either<Failure, List<TodoNetwork>>> getTodo(String timeStemp);
 
   Future<dynamic> addTodo();
+
+  Future<Either<Failure, void>> updateTodo(String documentId, Fields fields);
 }

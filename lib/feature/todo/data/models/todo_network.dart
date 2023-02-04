@@ -119,11 +119,13 @@ class Fields {
   }
 
   Map<String, dynamic> toJson() => {
-        "date": date.toJson(),
-        "isCompleted": isCompleted.toJson(),
-        "categoryId": categoryId.toJson(),
-        "id": id?.toJson(),
-        "name": name.toJson(),
+        "fields": {
+          "date": date.toJson(),
+          "isCompleted": isCompleted.toJson(),
+          "categoryId": categoryId.toJson(),
+          if (id != null) "id": id?.toJson(),
+          "name": name.toJson(),
+        }
       };
 }
 

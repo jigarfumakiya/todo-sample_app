@@ -16,13 +16,7 @@ abstract class TodoRemoteSource {
 
   Future<dynamic> addTodo();
 
-  Future<void> updateTodo(
-    String documentId, {
-    String? date,
-    String? categoryId,
-    String? name,
-    bool? isCompleted,
-  });
+  Future<void> updateTodo(String documentId, Fields fields);
 }
 
 class TodoEndpoints {
@@ -34,7 +28,8 @@ class TodoEndpoints {
   static const loginWithCredential =
       'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword';
   static const todoQuery = '$_todoBaseUrl:runQuery';
-  static const addTodo = '$_todoBaseUrl/task';
+  static const addTodo = '$_todoBaseUrl/tasks';
+  static const updateTodo = '$_todoBaseUrl';
 }
 
 class TodoRemoteSourceImpl implements TodoRemoteSource {
@@ -98,6 +93,7 @@ class TodoRemoteSourceImpl implements TodoRemoteSource {
 
   @override
   Future<List<TodoNetwork>> getTodo(String timestamp) async {
+    print('Selected timestamp: $timestamp');
     try {
       final queryBody = {
         "structuredQuery": {
@@ -135,28 +131,15 @@ class TodoRemoteSourceImpl implements TodoRemoteSource {
 
   @override
   Future<void> updateTodo(
-    String documentId, {
-    String? date,
-    String? categoryId,
-    String? name,
-    bool? isCompleted,
-  }) async {
+    String documentId,
+    Fields fields,
+  ) async {
     final updateEndpoint = "${TodoEndpoints.addTodo}/$documentId";
-    final data = {
-      "fields": {
-        if (date != null) "date": {"integerValue": "1664072803"},
-        if (categoryId != null)
-          "categoryId": {"stringValue": "DDQeCPpZATcLfV9U3I0v"},
-        if (name != null) "name": {"stringValue": "testing"},
-        if (isCompleted != null) "isCompleted": {"booleanValue": false}
-      }
-    };
-
     try {
       final queryParams = {'key': firebaseApiKey};
 
-      final response = await dioService.post(updateEndpoint,
-          queryParameters: queryParams, data: data);
+      final response = await dioService.patch(updateEndpoint,
+          queryParameters: queryParams, data: fields.toJson());
       final responseMap = (response.data as Map<String, dynamic>);
       // return TodoNetwork.fromJson(responseMap);
     } catch (e, s) {

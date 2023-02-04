@@ -57,6 +57,9 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
           } else if (state is TodoLoaded) {
             return _bodyWithData(
                 context, state.inCompletedTodos, state.completedTodos);
+          } else if (state is TodosUpdated) {
+            return _bodyWithData(
+                context, state.inCompletedTodos, state.completedTodos);
           } else if (state is TodoFailure) {
             return Center(child: Text(state.message));
           }
@@ -137,6 +140,7 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 5),
           child: TodoListWidget(
+            key: UniqueKey(),
             todos: todos,
             listKey: _inCompleteAnimatedListKey,
             onTodoStatusChange: inCompleteStatusChange,
@@ -179,10 +183,11 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
   }
 
   void inCompleteStatusChange(TodoNetwork todos) {
-    final completeTodo = todoCubit.completedTodos;
+    /// Update the UI
+    /// Remove the data from incomplete list
     final inCompleteTodo = todoCubit.inCompletedTodos;
-
     final removeIndex = inCompleteTodo.indexOf(todos);
+
     //Remove data from list
     _inCompleteAnimatedListKey.currentState?.removeItem(
       removeIndex,
@@ -190,11 +195,57 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
         return _buildRemovedItem(todos, context, animation);
       },
     );
-    // Todo implement animation list add feature
-    todoCubit.updateTodoStatus(todos);
+    todoCubit.inCompletedTodos.removeAt(removeIndex);
+
+    /// Add data to complete list
+    ///
+    final fields = todos.document.fields
+        .copyWith(isCompleted: IsCompleted(booleanValue: true));
+    final doc = todos.document.copyWith(fields: fields);
+
+    final updatedTodo = todos.copyWith(document: doc);
+    todoCubit.completedTodos.add(updatedTodo);
+
+    todoCubit.updateTodoStatus(
+        updatedTodo, todoCubit.inCompletedTodos, todoCubit.completedTodos);
+
+    /// Set index to trigger the animation
+    _completeAnimatedListKey.currentState
+        ?.insertItem(todoCubit.completedTodos.indexOf(updatedTodo));
   }
 
-  void completeStatusChange(TodoNetwork todos) {}
+  void completeStatusChange(TodoNetwork todos) {
+    /// Update the UI
+    /// Remove the data from complete list
+    final completeTodo = todoCubit.completedTodos;
+    final removeIndex = completeTodo.indexOf(todos);
+
+    //Remove data from list
+    _completeAnimatedListKey.currentState?.removeItem(
+      removeIndex,
+      (context, animation) {
+        return _buildRemovedItem(todos, context, animation);
+      },
+    );
+    todoCubit.completedTodos.removeAt(removeIndex);
+
+    /// Add data to incomplete list
+    ///
+    final fields = todos.document.fields
+        .copyWith(isCompleted: IsCompleted(booleanValue: false));
+    final doc = todos.document.copyWith(fields: fields);
+
+    final updatedTodo = todos.copyWith(document: doc);
+    todoCubit.inCompletedTodos.add(updatedTodo);
+
+    /// Set index to trigger the animation
+    final newIndex = todoCubit.inCompletedTodos.indexOf(updatedTodo);
+
+    _inCompleteAnimatedListKey.currentState!.insertItem(newIndex);
+
+    todoCubit.updateTodoStatus(
+        updatedTodo, todoCubit.inCompletedTodos, todoCubit.completedTodos);
+  }
 
   Widget _buildRemovedItem(
       TodoNetwork item, BuildContext context, Animation<double> animation) {
@@ -202,8 +253,8 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
       sizeFactor: animation,
       child: TodoListItemWidget(
         todo: item,
+        // we dont need to do anything is item is removing
         onChange: (todos) {},
-        // No gesture detector here: we don't want removed items to be interactive.
       ),
     );
   }

@@ -7,6 +7,6 @@ extension DateExtension on DateTime {
 
   String toTimeStamp() {
     final date = DateFormat('yyyy-MM-dd').parse(toIso8601String());
-    return date.millisecondsSinceEpoch.toString();
+    return (date.toUtc().millisecondsSinceEpoch / 1000).toInt().toString();
   }
 }

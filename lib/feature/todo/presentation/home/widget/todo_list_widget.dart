@@ -34,9 +34,13 @@ class _TodoListWidgetState extends State<TodoListWidget> {
       padding: EdgeInsets.zero,
       initialItemCount: widget.todos.length,
       itemBuilder: (context, index, animation) {
-        return TodoListItemWidget(
-          todo: widget.todos[index],
-          onChange: widget.onTodoStatusChange,
+        return SizeTransition(
+          sizeFactor: animation,
+          child: TodoListItemWidget(
+            key: ValueKey(widget.todos[index]),
+            todo: widget.todos[index],
+            onChange: widget.onTodoStatusChange,
+          ),
         );
       },
     );

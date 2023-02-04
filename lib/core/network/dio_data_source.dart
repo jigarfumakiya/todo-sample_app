@@ -20,6 +20,16 @@ abstract class DioDataSource {
     ProgressCallback? onReceiveProgress,
   });
 
+  Future<Response> patch(
+    String uri, {
+    data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  });
+
   Future<void> setAccessToken(String accessToken);
 
   Future<void> clearToken();
@@ -72,6 +82,26 @@ class DioDataSourceImpl implements DioDataSource {
       ProgressCallback? onReceiveProgress}) async {
     try {
       var response = await _dio.post(
+        uri,
+        data: data,
+        queryParameters: queryParameters,
+      );
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<Response> patch(String uri,
+      {data,
+      Map<String, dynamic>? queryParameters,
+      Options? options,
+      CancelToken? cancelToken,
+      ProgressCallback? onSendProgress,
+      ProgressCallback? onReceiveProgress}) async {
+    try {
+      var response = await _dio.patch(
         uri,
         data: data,
         queryParameters: queryParameters,

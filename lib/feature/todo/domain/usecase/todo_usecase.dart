@@ -16,4 +16,9 @@ class TodoUseCase {
   Future<Either<Failure, List<TodoNetwork>>> getTodos(String timeStemp) {
     return _todoRepository.getTodo(timeStemp);
   }
+
+  // Get all todos form network
+  Future<Either<Failure, void>> updateTodos(String documentId, Fields fields) {
+    return _todoRepository.updateTodo(documentId, fields);
+  }
 }

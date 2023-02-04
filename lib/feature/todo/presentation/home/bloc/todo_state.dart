@@ -39,6 +39,16 @@ class TodoLoaded extends TodoState {
   List<Object> get props => [completedTodos, inCompletedTodos];
 }
 
+class TodosUpdated extends TodoState {
+  final List<TodoNetwork> completedTodos;
+  final List<TodoNetwork> inCompletedTodos;
+
+  const TodosUpdated(this.completedTodos, this.inCompletedTodos);
+
+  @override
+  List<Object> get props => [completedTodos, inCompletedTodos];
+}
+
 class TodoFailure extends TodoState {
   final String message;
 

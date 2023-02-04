@@ -37,4 +37,17 @@ class TodoRepositoryImpl implements TodoRepository {
       return Left(ServerFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, void>> updateTodo(
+    String documentId,
+    Fields fields,
+  ) async {
+    try {
+      final networkTodos = await remoteSource.updateTodo(documentId, fields);
+      return Right(networkTodos);
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
 }
