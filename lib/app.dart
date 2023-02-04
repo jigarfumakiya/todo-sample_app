@@ -50,7 +50,7 @@ class _TodoAppState extends State<TodoApp> {
                   ],
                 );
               } else if (state is AppInternetAvailable) {
-                return AuthWidget();
+                return const AuthWidget();
               } else {
                 return const InternetNotAvailableWidget();
               }

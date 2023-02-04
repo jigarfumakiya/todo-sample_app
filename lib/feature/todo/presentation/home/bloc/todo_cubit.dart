@@ -10,6 +10,9 @@ class TodoCubit extends Cubit<TodoState> {
 
   TodoCubit(this._todoUseCase) : super(TodoInitial());
 
+  List<Todos> completedTodos = [];
+  List<Todos> inCompletedTodos = [];
+
   // Get auth token from firebase and set it to local
   Future<void> auth() async {
     emit(AuthLoading());
@@ -28,10 +31,29 @@ class TodoCubit extends Cubit<TodoState> {
       todos.fold((failure) {
         emit(TodoFailure('Unable to load todos'));
       }, (data) {
-        emit(TodoLoaded(data.documents));
+        completedTodos = data.documents
+            .where((element) => element.fields.isCompleted.booleanValue)
+            .toList(growable: true);
+        inCompletedTodos = data.documents
+            .where(
+                (element) => element.fields.isCompleted.booleanValue == false)
+            .toList(growable: true);
+        emit(TodoLoaded(completedTodos, inCompletedTodos));
       });
     } catch (e, s) {
       emit(TodoFailure('Unable to load todos'));
     }
   }
+
+  void updateTodoStatus(Todos todo) async {
+    inCompletedTodos.remove(todo);
+    final fields = todo.fields;
+
+    final updatedTodo = todo.copyWith(
+        fields: fields.copyWith(isCompleted: IsCompleted(booleanValue: true)));
+    completedTodos.add(updatedTodo);
+    emit(TodoLoaded(completedTodos, inCompletedTodos));
+  }
+
+  void completeTodo() async {}
 }

@@ -30,12 +30,13 @@ class TodoLoading extends TodoState {
 }
 
 class TodoLoaded extends TodoState {
-  final List<Todos> todos;
+  final List<Todos> completedTodos;
+  final List<Todos> inCompletedTodos;
 
-  const TodoLoaded(this.todos);
+  const TodoLoaded(this.completedTodos, this.inCompletedTodos);
 
   @override
-  List<Object> get props => [todos];
+  List<Object> get props => [completedTodos, inCompletedTodos];
 }
 
 class TodoFailure extends TodoState {

@@ -2,10 +2,10 @@ import 'package:equatable/equatable.dart';
 
 abstract class AppException implements Exception {}
 
-class InvaildTokenException implements AppException {
+class InvalidTokenException implements AppException {
   String cause;
 
-  InvaildTokenException(this.cause);
+  InvalidTokenException(this.cause);
 }
 
 class TokenExpiredException implements AppException {

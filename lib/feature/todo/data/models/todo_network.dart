@@ -12,11 +12,6 @@ class TodoNetwork {
             List<Todos>.from(json["documents"].map((x) => Todos.fromJson(x))),
         nextPageToken: json["nextPageToken"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "documents": List<dynamic>.from(documents.map((x) => x.toJson())),
-        "nextPageToken": nextPageToken,
-      };
 }
 
 class Todos {
@@ -39,12 +34,19 @@ class Todos {
         updateTime: DateTime.parse(json["updateTime"]),
       );
 
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "fields": fields.toJson(),
-        "createTime": createTime.toIso8601String(),
-        "updateTime": updateTime.toIso8601String(),
-      };
+  Todos copyWith({
+    String? name,
+    Fields? fields,
+    DateTime? createTime,
+    DateTime? updateTime,
+  }) {
+    return Todos(
+      name: name ?? this.name,
+      fields: fields ?? this.fields,
+      createTime: createTime ?? this.createTime,
+      updateTime: updateTime ?? this.updateTime,
+    );
+  }
 }
 
 class Fields {
@@ -70,13 +72,21 @@ class Fields {
         name: CategoryId.fromJson(json["name"]),
       );
 
-  Map<String, dynamic> toJson() => {
-        "isCompleted": isCompleted.toJson(),
-        "id": id?.toJson(),
-        "date": date?.toJson(),
-        "categoryId": categoryId.toJson(),
-        "name": name.toJson(),
-      };
+  Fields copyWith({
+    IsCompleted? isCompleted,
+    CategoryId? id,
+    Date? date,
+    CategoryId? categoryId,
+    CategoryId? name,
+  }) {
+    return Fields(
+      isCompleted: isCompleted ?? this.isCompleted,
+      id: id ?? this.id,
+      date: date ?? this.date,
+      categoryId: categoryId ?? this.categoryId,
+      name: name ?? this.name,
+    );
+  }
 }
 
 class CategoryId {

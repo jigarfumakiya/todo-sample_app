@@ -20,9 +20,10 @@ class TodoEndpoints {
   // Repo that contains all auth related operations
   static const _todoBaseUrl =
       'https://firestore.googleapis.com/v1/projects/applaudo-todo-app/databases/(default)/documents';
+
   static const loginWithCredential =
       'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword';
-  static const getTodo = '$_todoBaseUrl/tasks/';
+  static const getTodo = '$_todoBaseUrl/tasks';
 }
 
 class TodoRemoteSourceImpl implements TodoRemoteSource {
@@ -33,9 +34,25 @@ class TodoRemoteSourceImpl implements TodoRemoteSource {
   final DioService dioService;
 
   @override
-  Future addTodo() {
-    // TODO: implement addTodo
-    throw UnimplementedError();
+  Future addTodo() async {
+    final data = {
+      "fields": {
+        "date": {"integerValue": "1664072803"},
+        "categoryId": {"stringValue": "DDQeCPpZATcLfV9U3I0v"},
+        "name": {"stringValue": "testing"},
+        "isCompleted": {"booleanValue": false}
+      }
+    };
+
+    try {
+      final queryParams = {'key': firebaseApiKey};
+      final response = await dioService.post(TodoEndpoints.getTodo,
+          queryParameters: queryParams, data: data);
+      final responseMap = (response.data as Map<String, dynamic>);
+      return TodoNetwork.fromJson(responseMap);
+    } catch (e, s) {
+      throw ServerException();
+    }
   }
 
   @override
