@@ -23,6 +23,7 @@ class SkeletonTodoWidget extends StatelessWidget {
 
   Widget _buildHeader() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

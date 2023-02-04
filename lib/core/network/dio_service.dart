@@ -32,9 +32,24 @@ class DioService {
       if (error is DioError &&
           error.response != null &&
           error.response!.statusCode == 401) {
-        await refreshTokenUseCase.execute();
+        /** We are keeping getting in loop
+            reason being we are calling same for refresh token and login
+            If user on login and token expired we will call same api again
+            and keeps getting in loop*/
+
+        // Token has expired
+        // Remove the token so we can avoid using old token
+        dioDataSource.setAccessToken('');
+        final response = await refreshTokenUseCase.execute();
         dioDataSource
             .setAccessToken(await refreshTokenUseCase.getAccessToken());
+        // we need to check this because we are using same endpoint
+        // this should be different endpoint
+        if (RefreshEndpoint.refreshEndpoint == uri) {
+          // if login the api try to refresh the token
+          return response;
+        }
+
         return get(uri,
             queryParameters: queryParameters,
             options: options,
@@ -70,19 +85,24 @@ class DioService {
       if (error is DioError &&
           error.response != null &&
           error.response!.statusCode == 401) {
-        if (uri == RefreshEndpoint.refreshEndpoint) {
-          rethrow;
-        }
+        /** We are keeping getting in loop
+            reason being we are calling same for refresh token and login
+            If user on login and token expired we will call same api again
+            and keeps getting in loop*/
+
         // Token has expired
         // Remove the token so we can avoid using old token
         dioDataSource.setAccessToken('');
-        await refreshTokenUseCase.execute();
+        final response = await refreshTokenUseCase.execute();
         dioDataSource
             .setAccessToken(await refreshTokenUseCase.getAccessToken());
-        // We are keeping getting in loop
-        // reason being we are calling same for refresh token and login
-        // If user on login and token expired we will call same api again
-        // and keeps getting in loop
+        // we need to check this because we are using same endpoint
+        // this should be different endpoint
+        if (RefreshEndpoint.refreshEndpoint == uri) {
+          // if login the api try to refresh the token
+          return response;
+        }
+
         return post(uri,
             data: data,
             queryParameters: queryParameters,
@@ -95,50 +115,4 @@ class DioService {
       }
     }
   }
-
-// Future<Response> _requestWithRefresh(
-//   String method,
-//   String uri, {
-//   data,
-//   Map<String, dynamic>? queryParameters,
-//   Options? options,
-//   CancelToken? cancelToken,
-//   ProgressCallback? onSendProgress,
-//   ProgressCallback? onReceiveProgress,
-// }) async {
-//   try {
-//
-//     var response = await _dioDataSource.request(
-//       method,
-//       uri,
-//       data: data,
-//       queryParameters: queryParameters,
-//       options: options,
-//       cancelToken: cancelToken,
-//       onSendProgress: onSendProgress,
-//       onReceiveProgress: onReceiveProgress,
-//     );
-//     return response;
-//   } catch (error) {
-//     if (error is DioError &&
-//         error.response != null &&
-//         error.response!.statusCode == 401) {
-//       await _refreshTokenUseCase.execute();
-//       _dioDataSource
-//           .setAccessToken(await _refreshTokenUseCase.getAccessToken());
-//       return _requestWithRefresh(
-//         method,
-//         uri,
-//         data: data,
-//         queryParameters: queryParameters,
-//         options: options,
-//         cancelToken: cancelToken,
-//         onSendProgress: onSendProgress,
-//         onReceiveProgress: onReceiveProgress,
-//       );
-//     } else {
-//       rethrow;
-//     }
-//   }
-// }
 }

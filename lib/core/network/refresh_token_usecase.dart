@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:todo_sample_app/core/app/app_constant.dart';
 import 'package:todo_sample_app/core/app/storage_utils.dart';
 import 'package:todo_sample_app/core/network/dio_data_source.dart';
@@ -9,7 +10,7 @@ class RefreshTokenUseCase {
   RefreshTokenUseCase(this.dataSource);
 
   /// The use case class to refresh the token and store the new access token.
-  Future<void> execute() async {
+  Future<Response> execute() async {
     final data = {
       "email": "test@test.com",
       "password": "password",
@@ -26,6 +27,7 @@ class RefreshTokenUseCase {
     final accessToken = (response.data as Map)['idToken'];
     // extract the new access token and store it using secure storage or any other means
     SecureStorage.putString(SecureStorage.accessToken, accessToken);
+    return response;
   }
 
   /// Retrieve the access token from the secure storage
