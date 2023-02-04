@@ -13,4 +13,8 @@ class SecureStorage {
   static Future<void> putString(String key, String value) {
     return _storage.write(key: key, value: value);
   }
+
+  static Future<void> clearKey(String key, {String defValue = ''}) {
+    return _storage.delete(key: key);
+  }
 }

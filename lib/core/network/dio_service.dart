@@ -5,7 +5,7 @@ import 'package:todo_sample_app/core/network/dio_data_source.dart';
 import 'package:todo_sample_app/core/network/refresh_token_usecase.dart';
 
 class DioService {
-  final DioDataSourceImpl dioDataSource;
+  final DioDataSource dioDataSource;
   final RefreshTokenUseCase refreshTokenUseCase;
 
   DioService({required this.dioDataSource, required this.refreshTokenUseCase});
@@ -70,9 +70,19 @@ class DioService {
       if (error is DioError &&
           error.response != null &&
           error.response!.statusCode == 401) {
+        if (uri == RefreshEndpoint.refreshEndpoint) {
+          rethrow;
+        }
+        // Token has expired
+        // Remove the token so we can avoid using old token
+        dioDataSource.setAccessToken('');
         await refreshTokenUseCase.execute();
         dioDataSource
             .setAccessToken(await refreshTokenUseCase.getAccessToken());
+        // We are keeping getting in loop
+        // reason being we are calling same for refresh token and login
+        // If user on login and token expired we will call same api again
+        // and keeps getting in loop
         return post(uri,
             data: data,
             queryParameters: queryParameters,

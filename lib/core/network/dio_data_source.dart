@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:todo_sample_app/core/app/storage_utils.dart';
 
 abstract class DioDataSource {
   Future<Response> get(
@@ -18,6 +19,10 @@ abstract class DioDataSource {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   });
+
+  Future<void> setAccessToken(String accessToken);
+
+  Future<void> clearToken();
 }
 
 class DioDataSourceImpl implements DioDataSource {
@@ -27,7 +32,7 @@ class DioDataSourceImpl implements DioDataSource {
   DioDataSourceImpl(this._dio) {
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) {
-        if (_accessToken != null) {
+        if (_accessToken != null && _accessToken != '') {
           options.headers["Authorization"] = "Bearer $_accessToken";
         }
         handler.next(options);
@@ -35,6 +40,7 @@ class DioDataSourceImpl implements DioDataSource {
     ));
   }
 
+  @override
   Future<void> setAccessToken(String accessToken) async {
     _accessToken = accessToken;
   }
@@ -76,24 +82,29 @@ class DioDataSourceImpl implements DioDataSource {
     }
   }
 
-  // @override
-  // Future<Response> request(String method, String uri,
-  //     {data,
-  //     Map<String, dynamic>? queryParameters,
-  //     Options? options,
-  //     CancelToken? cancelToken,
-  //     ProgressCallback? onSendProgress,
-  //     ProgressCallback? onReceiveProgress}) async {
-  //   try {
-  //     var response = await _dio.request(
-  //       method,
-  //       uri,
-  //       data: data,
-  //       queryParameters: queryParameters,
-  //     );
-  //     return response;
-  //   } catch (error) {
-  //     rethrow;
-  //   }
-  // }
+  @override
+  Future<void> clearToken() {
+    return SecureStorage.clearKey(SecureStorage.accessToken);
+  }
+
+// @override
+// Future<Response> request(String method, String uri,
+//     {data,
+//     Map<String, dynamic>? queryParameters,
+//     Options? options,
+//     CancelToken? cancelToken,
+//     ProgressCallback? onSendProgress,
+//     ProgressCallback? onReceiveProgress}) async {
+//   try {
+//     var response = await _dio.request(
+//       method,
+//       uri,
+//       data: data,
+//       queryParameters: queryParameters,
+//     );
+//     return response;
+//   } catch (error) {
+//     rethrow;
+//   }
+// }
 }

@@ -11,3 +11,5 @@ class TokenExpiredException implements AppException {
 
   TokenExpiredException(this.cause);
 }
+
+class ServerException implements Exception {}

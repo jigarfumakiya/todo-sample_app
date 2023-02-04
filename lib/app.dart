@@ -7,7 +7,7 @@ import 'package:todo_sample_app/app_cubit.dart';
 import 'package:todo_sample_app/core/app/app_assets.dart';
 import 'package:todo_sample_app/core/app/app_theme.dart';
 import 'package:todo_sample_app/core/injector/injection_container.dart';
-import 'package:todo_sample_app/feature/todo/presentation/home/widget/todo_dashboard_widget.dart';
+import 'package:todo_sample_app/feature/todo/presentation/home/widget/auth_widget.dart';
 
 class TodoApp extends StatefulWidget {
   const TodoApp({super.key});
@@ -50,7 +50,8 @@ class _TodoAppState extends State<TodoApp> {
                   ],
                 );
               } else if (state is AppInternetAvailable) {
-                return TodoDashboardWidget();
+                // return TodoDashboardWidget();
+                return AuthWidget();
               } else {
                 return const InternetNotAvailableWidget();
               }

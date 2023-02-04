@@ -4,7 +4,7 @@ import 'package:todo_sample_app/core/network/dio_data_source.dart';
 
 /// The use case class to refresh the token and store the new access token.
 class RefreshTokenUseCase {
-  final DioDataSourceImpl dataSource;
+  final DioDataSource dataSource;
 
   RefreshTokenUseCase(this.dataSource);
 
@@ -18,13 +18,14 @@ class RefreshTokenUseCase {
 
     final queryParams = {'key': firebaseApiKey};
 
-    final accessToken = await dataSource.post(
+    final response = await dataSource.post(
       RefreshEndpoint.refreshEndpoint,
       queryParameters: queryParams,
       data: data,
     );
+    final accessToken = (response.data as Map)['idToken'];
     // extract the new access token and store it using secure storage or any other means
-    SecureStorage.putString(SecureStorage.accessToken, 'accessToken');
+    SecureStorage.putString(SecureStorage.accessToken, accessToken);
   }
 
   /// Retrieve the access token from the secure storage
