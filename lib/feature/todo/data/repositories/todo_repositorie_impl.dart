@@ -29,9 +29,9 @@ class TodoRepositoryImpl implements TodoRepository {
   }
 
   @override
-  Future<Either<Failure, TodoNetwork>> getTodo() async {
+  Future<Either<Failure, List<TodoNetwork>>> getTodo(String timeStemp) async {
     try {
-      final networkTodos = await remoteSource.getTodo();
+      final networkTodos = await remoteSource.getTodo(timeStemp);
       return Right(networkTodos);
     } on ServerException {
       return Left(ServerFailure());

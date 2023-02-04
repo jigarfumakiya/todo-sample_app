@@ -5,8 +5,8 @@ import 'package:todo_sample_app/feature/todo/data/models/todo_network.dart';
 /// Renders item of each todo
 /// whether item is completed or pending
 class TodoListItemWidget extends StatelessWidget {
-  final Todos todo;
-  final Function(Todos todos) onChange;
+  final TodoNetwork todo;
+  final Function(TodoNetwork todos) onChange;
 
   const TodoListItemWidget({
     Key? key,
@@ -28,7 +28,7 @@ class TodoListItemWidget extends StatelessWidget {
               onChanged: (value) {
                 onChange(todo);
               },
-              value: todo.fields.isCompleted.booleanValue,
+              value: todo.document.fields.isCompleted.booleanValue,
             ),
           ),
           const SizedBox(width: 20),
@@ -36,12 +36,12 @@ class TodoListItemWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                todo.fields.name.stringValue,
+                todo.document.fields.name.stringValue,
                 style: textTheme.bodyText2!.copyWith(
                     color: AppColors.headline2Color,
                     fontWeight: FontWeight.w500),
               ),
-              Text(todo.fields.categoryId.stringValue,
+              Text(todo.document.fields.categoryId.stringValue,
                   style: textTheme.bodyText2!.copyWith(
                       color: AppColors.body2Color,
                       fontWeight: FontWeight.w600)),

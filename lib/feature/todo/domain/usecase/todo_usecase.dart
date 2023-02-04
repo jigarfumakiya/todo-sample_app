@@ -13,7 +13,7 @@ class TodoUseCase {
   }
 
   // Get all todos form network
-  Future<Either<Failure, TodoNetwork>> getTodos() {
-    return _todoRepository.getTodo();
+  Future<Either<Failure, List<TodoNetwork>>> getTodos(String timeStemp) {
+    return _todoRepository.getTodo(timeStemp);
   }
 }

@@ -10,9 +10,11 @@ class DateWidget extends StatefulWidget {
   const DateWidget({
     Key? key,
     required this.onDateChange,
+    required this.selectedDate,
   }) : super(key: key);
 
   final OnDateChange onDateChange;
+  final DateTime selectedDate;
 
   @override
   State<DateWidget> createState() => _DateWidgetState();
@@ -20,6 +22,12 @@ class DateWidget extends StatefulWidget {
 
 class _DateWidgetState extends State<DateWidget> {
   DateTime selectedDate = DateTime.now();
+
+  @override
+  void initState() {
+    selectedDate = widget.selectedDate;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,15 +101,15 @@ class _DateWidgetState extends State<DateWidget> {
               ),
               leftChevronIcon: Icon(
                 Icons.arrow_back_ios,
-                color: Colors.white,
+                color: Colors.black,
               )),
           calendarStyle: CalendarStyle(
               isTodayHighlighted: false,
               defaultTextStyle:
-                  textTheme.bodyText2!.copyWith(color: Colors.white),
+                  textTheme.bodyText2!.copyWith(color: Colors.black),
               outsideDaysVisible: false,
               weekendTextStyle:
-                  textTheme.bodyText2!.copyWith(color: Colors.white),
+                  textTheme.bodyText2!.copyWith(color: Colors.black),
               selectedDecoration: const BoxDecoration(
                 color: AppColors.blueColor,
                 shape: BoxShape.circle,

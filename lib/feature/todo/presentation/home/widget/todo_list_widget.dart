@@ -10,10 +10,10 @@ class TodoListWidget extends StatefulWidget {
     required this.onTodoStatusChange,
   }) : super(key: key);
 
-  final List<Todos> todos;
+  final List<TodoNetwork> todos;
   final GlobalKey<AnimatedListState> listKey;
 
-  final Function(Todos todo) onTodoStatusChange;
+  final Function(TodoNetwork todo) onTodoStatusChange;
 
   @override
   State<TodoListWidget> createState() => _TodoListWidgetState();
@@ -23,25 +23,6 @@ class _TodoListWidgetState extends State<TodoListWidget> {
   @override
   void initState() {
     super.initState();
-  }
-
-  /// The builder function used to build items that have been removed.
-  ///
-  /// Used to build an item after it has been removed from the list. This method
-  /// is needed because a removed item remains visible until its animation has
-  /// completed (even though it's gone as far as this ListModel is concerned).
-  /// The widget will be used by the [AnimatedListState.removeItem] method's
-  /// [AnimatedRemovedItemBuilder] parameter.
-  Widget _buildRemovedItem(
-      Todos item, BuildContext context, Animation<double> animation) {
-    return SizeTransition(
-      sizeFactor: animation,
-      child: TodoListItemWidget(
-        todo: item,
-        onChange: widget.onTodoStatusChange,
-        // No gesture detector here: we don't want removed items to be interactive.
-      ),
-    );
   }
 
   @override

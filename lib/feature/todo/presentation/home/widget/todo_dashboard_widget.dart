@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_sample_app/core/app/app_colors.dart';
+import 'package:todo_sample_app/core/extensions/date.dart';
 import 'package:todo_sample_app/core/extensions/screen_utils.dart';
 import 'package:todo_sample_app/core/injector/injection_container.dart';
 import 'package:todo_sample_app/feature/todo/data/models/todo_network.dart';
@@ -25,6 +26,13 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
 
   TextTheme? textTheme;
   final todoCubit = sl<TodoCubit>();
+  DateTime selectedDate = DateTime.now();
+
+  @override
+  void initState() {
+    todoCubit.getTodosFromNetwork(DateTime.now().toTimeStamp());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +50,7 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: BlocBuilder<TodoCubit, TodoState>(
-        bloc: todoCubit..getTodosFromNetwork(),
+        bloc: todoCubit,
         builder: (context, state) {
           if (state is TodoLoading) {
             return const SkeletonTodoWidget();
@@ -50,7 +58,7 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
             return _bodyWithData(
                 context, state.inCompletedTodos, state.completedTodos);
           } else if (state is TodoFailure) {
-            return Text(state.message);
+            return Center(child: Text(state.message));
           }
           return Container();
         },
@@ -58,7 +66,8 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
+  Widget _buildHeader(
+      BuildContext context, int incompleteTodosCount, int completedTodosCount) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -66,7 +75,10 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            DateWidget(onDateChange: onDateChange),
+            DateWidget(
+              onDateChange: onDateChange,
+              selectedDate: selectedDate,
+            ),
             IconButton(
               onPressed: () {},
               iconSize: 45,
@@ -76,7 +88,7 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
           ],
         ),
         Text(
-          '5 incomplete, 5 completed',
+          '$incompleteTodosCount incomplete, $completedTodosCount completed',
           style: textTheme!.bodyText1!
               .copyWith(color: AppColors.independenceColor),
         )
@@ -84,11 +96,11 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
     );
   }
 
-  Widget _bodyWithData(BuildContext context, List<Todos> inCompleteTodos,
-      List<Todos> completedTodos) {
+  Widget _bodyWithData(BuildContext context, List<TodoNetwork> inCompleteTodos,
+      List<TodoNetwork> completedTodos) {
     return Column(
       children: [
-        _buildHeader(context),
+        _buildHeader(context, inCompleteTodos.length, completedTodos.length),
         const SizedBox(height: 10),
         Divider(color: AppColors.fontColor.withOpacity(.3), thickness: 1),
         Expanded(
@@ -108,7 +120,7 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
     );
   }
 
-  Widget inCompleteWidget(List<Todos> todos) {
+  Widget inCompleteWidget(List<TodoNetwork> todos) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -134,7 +146,7 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
     );
   }
 
-  Widget completeWidget(List<Todos> todos) {
+  Widget completeWidget(List<TodoNetwork> todos) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -162,10 +174,11 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
 
   /// class method
   void onDateChange(DateTime dateTime) {
-    print('date change $dateTime');
+    selectedDate = dateTime;
+    todoCubit.getTodosFromNetwork(dateTime.toTimeStamp());
   }
 
-  void inCompleteStatusChange(Todos todos) {
+  void inCompleteStatusChange(TodoNetwork todos) {
     final completeTodo = todoCubit.completedTodos;
     final inCompleteTodo = todoCubit.inCompletedTodos;
 
@@ -181,10 +194,10 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
     todoCubit.updateTodoStatus(todos);
   }
 
-  void completeStatusChange(Todos todos) {}
+  void completeStatusChange(TodoNetwork todos) {}
 
   Widget _buildRemovedItem(
-      Todos item, BuildContext context, Animation<double> animation) {
+      TodoNetwork item, BuildContext context, Animation<double> animation) {
     return SizeTransition(
       sizeFactor: animation,
       child: TodoListItemWidget(

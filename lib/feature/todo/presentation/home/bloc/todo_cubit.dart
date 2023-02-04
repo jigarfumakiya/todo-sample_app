@@ -10,8 +10,8 @@ class TodoCubit extends Cubit<TodoState> {
 
   TodoCubit(this._todoUseCase) : super(TodoInitial());
 
-  List<Todos> completedTodos = [];
-  List<Todos> inCompletedTodos = [];
+  List<TodoNetwork> completedTodos = [];
+  List<TodoNetwork> inCompletedTodos = [];
 
   // Get auth token from firebase and set it to local
   Future<void> auth() async {
@@ -24,19 +24,20 @@ class TodoCubit extends Cubit<TodoState> {
     }
   }
 
-  Future<void> getTodosFromNetwork() async {
+  Future<void> getTodosFromNetwork(String timeStamp) async {
     emit(TodoLoading());
     try {
-      final todos = await _todoUseCase.getTodos();
+      final todos = await _todoUseCase.getTodos(timeStamp);
       todos.fold((failure) {
         emit(TodoFailure('Unable to load todos'));
       }, (data) {
-        completedTodos = data.documents
-            .where((element) => element.fields.isCompleted.booleanValue)
-            .toList(growable: true);
-        inCompletedTodos = data.documents
+        completedTodos = data
             .where(
-                (element) => element.fields.isCompleted.booleanValue == false)
+                (element) => element.document.fields.isCompleted.booleanValue)
+            .toList(growable: true);
+        inCompletedTodos = data
+            .where((element) =>
+                element.document.fields.isCompleted.booleanValue == false)
             .toList(growable: true);
         emit(TodoLoaded(completedTodos, inCompletedTodos));
       });
@@ -45,12 +46,13 @@ class TodoCubit extends Cubit<TodoState> {
     }
   }
 
-  void updateTodoStatus(Todos todo) async {
+  void updateTodoStatus(TodoNetwork todo) async {
     inCompletedTodos.remove(todo);
-    final fields = todo.fields;
+    final fields = todo.document.fields;
 
-    final updatedTodo = todo.copyWith(
+    final doc = todo.document.copyWith(
         fields: fields.copyWith(isCompleted: IsCompleted(booleanValue: true)));
+    final updatedTodo = todo.copyWith(document: doc);
     completedTodos.add(updatedTodo);
     emit(TodoLoaded(completedTodos, inCompletedTodos));
   }

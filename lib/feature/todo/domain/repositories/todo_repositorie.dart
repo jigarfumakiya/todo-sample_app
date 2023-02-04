@@ -9,7 +9,7 @@ abstract class TodoRepository {
 
   Future<dynamic> getCategories();
 
-  Future<Either<Failure, TodoNetwork>> getTodo();
+  Future<Either<Failure, List<TodoNetwork>>> getTodo(String timeStemp);
 
   Future<dynamic> addTodo();
 }

@@ -30,8 +30,8 @@ class TodoLoading extends TodoState {
 }
 
 class TodoLoaded extends TodoState {
-  final List<Todos> completedTodos;
-  final List<Todos> inCompletedTodos;
+  final List<TodoNetwork> completedTodos;
+  final List<TodoNetwork> inCompletedTodos;
 
   const TodoLoaded(this.completedTodos, this.inCompletedTodos);
 
