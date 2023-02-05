@@ -50,8 +50,24 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
   Widget _buildWidgetBody(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: BlocBuilder<TodoCubit, TodoState>(
+      child: BlocConsumer<TodoCubit, TodoState>(
         bloc: todoCubit,
+        listener: (context, state) {
+          if (state is TodoUpdatedMessage) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: AppColors.independenceColor,
+                content: Text('Todo Status Updated',
+                    style: textTheme!.bodyText2!.copyWith(
+                      color: Colors.white,
+                    )),
+              ),
+            );
+          }
+        },
+        buildWhen: (previous, current) {
+          return current is! TodoUpdatedMessage;
+        },
         builder: (context, state) {
           if (state is TodoLoading) {
             return const SkeletonTodoWidget();
@@ -211,8 +227,10 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
     fromList.removeAt(removeIndex);
 
     final fields = todos.document.fields.copyWith(
-        isCompleted:
-            IsCompleted(booleanValue: fromList == todoCubit.completedTodos));
+        isCompleted: IsCompleted(
+      booleanValue: todos.document.fields.isCompleted.booleanValue =
+          !todos.document.fields.isCompleted.booleanValue,
+    ));
     final doc = todos.document.copyWith(fields: fields);
 
     final updatedTodo = todos.copyWith(document: doc);
@@ -226,13 +244,11 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
 
   Widget _buildRemovedItem(
       TodoNetwork item, BuildContext context, Animation<double> animation) {
-    return SizeTransition(
-      sizeFactor: animation,
-      child: TodoListItemWidget(
-        todo: item,
-        // we dont need to do anything is item is removing
-        onChange: (todos) {},
-      ),
+    return TodoListItemWidget(
+      animation: animation,
+      todo: item,
+      // we dont need to do anything is item is removing
+      onChange: (todos) {},
     );
   }
 }

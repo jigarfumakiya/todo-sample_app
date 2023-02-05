@@ -25,7 +25,6 @@ class _TodoAppState extends State<TodoApp> {
     super.initState();
 
     /// Call internetCheck on the appCubit when the widget is initialized
-
     appCubit.internetCheck();
   }
 
@@ -60,12 +59,18 @@ class _TodoAppState extends State<TodoApp> {
                 return const AuthWidget();
               } else {
                 // Show the InternetNotAvailableWidget if the state is not AppLoading or AppInternetAvailable
-                return const InternetNotAvailableWidget();
+                return InternetNotAvailableWidget(
+                  tryAgainTap: onTryAgainTap,
+                );
               }
             },
           ),
         ),
       ),
     );
+  }
+
+  void onTryAgainTap() {
+    appCubit.internetCheck();
   }
 }

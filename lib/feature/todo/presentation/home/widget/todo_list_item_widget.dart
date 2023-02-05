@@ -7,47 +7,52 @@ import 'package:todo_sample_app/feature/todo/data/models/todo_network.dart';
 class TodoListItemWidget extends StatelessWidget {
   final TodoNetwork todo;
   final Function(TodoNetwork todos) onChange;
+  final Animation<double> animation;
 
   const TodoListItemWidget({
     Key? key,
     required this.todo,
     required this.onChange,
+    required this.animation,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Transform.scale(
-            scale: 1.6,
-            child: Checkbox(
-              onChanged: (value) {
-                onChange(todo);
-              },
-              value: todo.document.fields.isCompleted.booleanValue,
-            ),
-          ),
-          const SizedBox(width: 20),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                todo.document.fields.name.stringValue,
-                style: textTheme.bodyText2!.copyWith(
-                    color: AppColors.headline2Color,
-                    fontWeight: FontWeight.w500),
+    return SizeTransition(
+      sizeFactor: animation,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Transform.scale(
+              scale: 1.6,
+              child: Checkbox(
+                onChanged: (value) {
+                  onChange(todo);
+                },
+                value: todo.document.fields.isCompleted.booleanValue,
               ),
-              Text(todo.document.fields.categoryId.stringValue,
+            ),
+            const SizedBox(width: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  todo.document.fields.name.stringValue,
                   style: textTheme.bodyText2!.copyWith(
-                      color: AppColors.body2Color,
-                      fontWeight: FontWeight.w600)),
-            ],
-          )
-        ],
+                      color: AppColors.headline2Color,
+                      fontWeight: FontWeight.w500),
+                ),
+                Text(todo.document.fields.categoryId.stringValue,
+                    style: textTheme.bodyText2!.copyWith(
+                        color: AppColors.body2Color,
+                        fontWeight: FontWeight.w600)),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

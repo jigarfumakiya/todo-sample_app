@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:todo_sample_app/core/app/app_assets.dart';
+import 'package:todo_sample_app/core/app/app_colors.dart';
 
 class InternetNotAvailableWidget extends StatelessWidget {
-  const InternetNotAvailableWidget({Key? key}) : super(key: key);
+  final VoidCallback tryAgainTap;
+
+  const InternetNotAvailableWidget({
+    Key? key,
+    required this.tryAgainTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text('Todo\'s', style: theme.headline6),
+      ),
       body: SizedBox(
         width: double.infinity,
         child: Column(
@@ -24,8 +34,15 @@ class InternetNotAvailableWidget extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             ElevatedButton(
-              onPressed: () {},
-              child: const Text('Try again'),
+              onPressed: tryAgainTap,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.independenceColor,
+              ),
+              child: Text('Try again',
+                  style: theme.headline6!.copyWith(
+                    fontSize: 14,
+                    color: Colors.white,
+                  )),
             )
           ],
         ),
