@@ -212,7 +212,7 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
   }
 
   void floatingActionTap() {
-    context.go(Routes.addTodo.path);
+    context.push(Routes.addTodo.path);
   }
 
   //Internal method to change todo status

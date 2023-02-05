@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 class AppColors {
   //Theme Color
   static const Color primaryColor = Color(0xFFF8F8F8);
+  static const Color textFillColor = platinum;
   static const Color fontColor = gunmetal;
   static const Color fillColor = lotion;
   static const Color headline2Color = independenceColor;
@@ -19,4 +20,5 @@ class AppColors {
   static const Color gainsboro = Color(0xFFDADADA);
   static const Color grayX11 = Color(0xFFBEBEB9);
   static const Color lotion = Color(0xFFFAFAFA);
+  static const Color platinum = Color(0xFFE5E5E5);
 }
