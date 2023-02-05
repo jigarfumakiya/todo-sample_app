@@ -39,15 +39,17 @@ class DioDataSourceImpl implements DioDataSource {
   final Dio _dio;
   String? _accessToken;
 
-  DioDataSourceImpl(this._dio) {
-    _dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler) {
-        if (_accessToken != null && _accessToken != '') {
-          options.headers["Authorization"] = "Bearer $_accessToken";
-        }
-        handler.next(options);
-      },
-    ));
+  DioDataSourceImpl(this._dio, [bool isMock = false]) {
+    if (!isMock) {
+      _dio.interceptors.add(InterceptorsWrapper(
+        onRequest: (options, handler) {
+          if (_accessToken != null && _accessToken != '') {
+            options.headers["Authorization"] = "Bearer $_accessToken";
+          }
+          handler.next(options);
+        },
+      ));
+    }
   }
 
   @override

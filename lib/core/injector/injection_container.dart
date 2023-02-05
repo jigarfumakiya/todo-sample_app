@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo_sample_app/app_cubit.dart';
 import 'package:todo_sample_app/core/network/dio_data_source.dart';
@@ -15,6 +16,10 @@ import '../../feature/todo/domain/usecase/todo_usecase.dart';
 final sl = GetIt.instance;
 
 Future<void> init({bool isMock = true}) async {
+  if (isMock) {
+    WidgetsFlutterBinding.ensureInitialized();
+    sl.reset();
+  }
   //? Bloc
   sl.registerFactory(() => AppCubit());
   sl.registerFactory(() => TodoCubit(sl()));
@@ -46,17 +51,19 @@ Future<void> init({bool isMock = true}) async {
   );
 
   sl.registerLazySingleton<DioDataSource>(
-    () => DioDataSourceImpl(sl()),
+    () => DioDataSourceImpl(sl(), isMock),
   );
 
   //? Network
   final dio = Dio();
-  dio.interceptors.add(LogInterceptor(
-    requestHeader: true,
-    responseBody: true,
-    requestBody: true,
-    request: true,
-    error: true,
-  ));
+  if (!isMock) {
+    dio.interceptors.add(LogInterceptor(
+      requestHeader: true,
+      responseBody: true,
+      requestBody: true,
+      request: true,
+      error: true,
+    ));
+  }
   sl.registerLazySingleton<Dio>(() => dio);
 }

@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
+
 List<TodoNetwork> todoFromJson(String str) {
   final list = jsonDecode(str) as List<dynamic>;
 
@@ -24,7 +26,7 @@ List<TodoNetwork> todoFromJson(String str) {
 String todoToJson(List<TodoNetwork> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class TodoNetwork {
+class TodoNetwork extends Equatable {
   TodoNetwork({
     required this.document,
     required this.readTime,
@@ -49,9 +51,12 @@ class TodoNetwork {
         "document": document.toJson(),
         "readTime": readTime.toIso8601String(),
       };
+
+  @override
+  List<Object?> get props => [document, readTime];
 }
 
-class Document {
+class Document extends Equatable {
   Document({
     required this.name,
     required this.fields,
@@ -91,9 +96,12 @@ class Document {
         "createTime": createTime.toIso8601String(),
         "updateTime": updateTime.toIso8601String(),
       };
+
+  @override
+  List<Object?> get props => [name, fields, createTime, updateTime];
 }
 
-class Fields {
+class Fields extends Equatable {
   Fields({
     required this.date,
     required this.isCompleted,
@@ -141,9 +149,12 @@ class Fields {
           "name": name.toJson(),
         }
       };
+
+  @override
+  List<Object?> get props => [date, isCompleted, categoryId, id, name];
 }
 
-class CategoryId {
+class CategoryId extends Equatable {
   CategoryId({
     required this.stringValue,
   });
@@ -157,9 +168,12 @@ class CategoryId {
   Map<String, dynamic> toJson() => {
         "stringValue": stringValue,
       };
+
+  @override
+  List<Object> get props => [stringValue];
 }
 
-class IsCompleted {
+class IsCompleted extends Equatable {
   IsCompleted({
     required this.booleanValue,
   });
@@ -173,13 +187,7 @@ class IsCompleted {
   Map<String, dynamic> toJson() => {
         "booleanValue": booleanValue,
       };
+
+  @override
+  List<Object?> get props => [booleanValue];
 }
-
-//Empty State Doc
-// If api does not expected data app should not crash
-
-// class EmptyDocumentState  extends Document{
-//
-//   EmptyDocumentState():super({required super.name, required super.fields, required super.createTime, required super.updateTime});
-//
-// }

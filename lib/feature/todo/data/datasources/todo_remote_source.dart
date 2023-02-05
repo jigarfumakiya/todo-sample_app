@@ -48,6 +48,7 @@ class TodoRemoteSourceImpl implements TodoRemoteSource {
       final responseMap = (response.data as Map<String, dynamic>);
       return Document.fromJson(responseMap);
     } catch (e, s) {
+      print(s);
       // We can generic error handling classes
       throw ServerException(addTodoFailedMessage);
     }
