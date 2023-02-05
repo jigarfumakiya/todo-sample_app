@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo_sample_app/core/app/app_colors.dart';
+import 'package:todo_sample_app/core/app/app_routes.dart';
 import 'package:todo_sample_app/core/extensions/date.dart';
 import 'package:todo_sample_app/core/extensions/screen_utils.dart';
 import 'package:todo_sample_app/core/injector/injection_container.dart';
@@ -40,7 +42,7 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
     textTheme = Theme.of(context).textTheme;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: floatingActionTap,
         child: const Icon(Icons.add),
       ),
       body: SafeArea(child: _buildWidgetBody(context)),
@@ -209,6 +211,10 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
         todoCubit.inCompletedTodos, _inCompleteAnimatedListKey);
   }
 
+  void floatingActionTap() {
+    context.go(Routes.addTodo.path);
+  }
+
   //Internal method to change todo status
   void _statusChange(
       TodoNetwork todos,
@@ -242,6 +248,7 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
         updatedTodo, todoCubit.inCompletedTodos, todoCubit.completedTodos);
   }
 
+  /// Widget that will show when removing items
   Widget _buildRemovedItem(
       TodoNetwork item, BuildContext context, Animation<double> animation) {
     return TodoListItemWidget(
