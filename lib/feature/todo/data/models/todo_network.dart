@@ -4,8 +4,22 @@
 
 import 'dart:convert';
 
-List<TodoNetwork> todoFromJson(String str) => List<TodoNetwork>.from(
-    json.decode(str).map((x) => TodoNetwork.fromJson(x)));
+List<TodoNetwork> todoFromJson(String str) {
+  final list = jsonDecode(str) as List<dynamic>;
+
+  // Pick the first index and check if there is data or not
+  final responseMap = list[0] as Map<String, dynamic>;
+
+  // If body contains doc mean response has some data
+  if (responseMap.containsKey('document')) {
+    return List<TodoNetwork>.from(
+        json.decode(str).map((x) => TodoNetwork.fromJson(x)));
+  } else {
+    // if not mean there no data found
+    // return empty list
+    return [];
+  }
+}
 
 String todoToJson(List<TodoNetwork> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
@@ -160,3 +174,12 @@ class IsCompleted {
         "booleanValue": booleanValue,
       };
 }
+
+//Empty State Doc
+// If api does not expected data app should not crash
+
+// class EmptyDocumentState  extends Document{
+//
+//   EmptyDocumentState():super({required super.name, required super.fields, required super.createTime, required super.updateTime});
+//
+// }
