@@ -4,8 +4,12 @@ import 'package:todo_sample_app/core/app/app_colors.dart';
 import 'package:todo_sample_app/core/extensions/date.dart';
 import 'package:todo_sample_app/core/extensions/screen_utils.dart';
 
+/// The `OnDateChange` typedef defines a function type for a callback function that takes a `DateTime` date as a parameter.
+
 typedef OnDateChange = Function(DateTime date);
 
+/// `DateWidget` is a stateful widget that displays a date and allows the user to select a date from a calendar dialog.
+/// It has two required constructor parameters: `onDateChange` (callback function) and `selectedDate` (selected date).
 class DateWidget extends StatefulWidget {
   const DateWidget({
     Key? key,
@@ -52,6 +56,7 @@ class _DateWidgetState extends State<DateWidget> {
   }
 
   /// class methods
+  /// Show the calendar dialog.
   Future<void> showDateDialog(BuildContext context) async {
     final selectedDate = await showDialog(
       context: context,
@@ -67,6 +72,8 @@ class _DateWidgetState extends State<DateWidget> {
       ),
     );
 
+    /// once user select any date
+    /// send back date to parent widget
     if (selectedDate != null) {
       widget.onDateChange.call(selectedDate);
       setState(() {});
@@ -130,7 +137,9 @@ class _DateWidgetState extends State<DateWidget> {
             setState(() {
               selectedDate = selectedDay;
             });
-            // Delay so user do not see jump on screen
+
+            /// Delay so user do not see jump on screen
+            /// So user can see which date they have select then pop
             Future.delayed(const Duration(milliseconds: 300), () {
               Navigator.of(context).pop(selectedDate);
             });

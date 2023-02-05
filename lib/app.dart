@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lottie/lottie.dart';
 import 'package:todo_sample_app/app_cubit.dart';
-import 'package:todo_sample_app/core/app/app_assets.dart';
 import 'package:todo_sample_app/core/app/app_theme.dart';
+import 'package:todo_sample_app/core/common/internet_not_avaliable.dart';
 import 'package:todo_sample_app/core/injector/injection_container.dart';
 import 'package:todo_sample_app/feature/todo/presentation/home/widget/auth/auth_widget.dart';
 
+/// The main entry point for the TodoApp
 class TodoApp extends StatefulWidget {
   const TodoApp({super.key});
 
+  /// State for the [TodoApp]
   @override
   State<TodoApp> createState() => _TodoAppState();
 }
@@ -22,16 +23,21 @@ class _TodoAppState extends State<TodoApp> {
   @override
   void initState() {
     super.initState();
+
+    /// Call internetCheck on the appCubit when the widget is initialized
+
     appCubit.internetCheck();
   }
 
   @override
   Widget build(BuildContext context) {
+    /// Set the preferred orientation to portrait up and down
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
 
+    /// Return a Material App with the Todo App's theme, title, and home screen
     return ScreenUtilInit(
       builder: (context, child) => MaterialApp(
         title: 'Todo App',
@@ -50,44 +56,14 @@ class _TodoAppState extends State<TodoApp> {
                   ],
                 );
               } else if (state is AppInternetAvailable) {
+                // Show the AuthWidget if the state is AppInternetAvailable
                 return const AuthWidget();
               } else {
+                // Show the InternetNotAvailableWidget if the state is not AppLoading or AppInternetAvailable
                 return const InternetNotAvailableWidget();
               }
             },
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class InternetNotAvailableWidget extends StatelessWidget {
-  const InternetNotAvailableWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
-    return Scaffold(
-      body: SizedBox(
-        width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Lottie.asset(AppAssets.noInternetConnection),
-            const SizedBox(height: 10),
-            Text(
-              'Please connect to internet and try again',
-              textAlign: TextAlign.center,
-              style: theme.bodyText1,
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text('Try again'),
-            )
-          ],
         ),
       ),
     );

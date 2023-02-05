@@ -3,6 +3,7 @@ import 'package:todo_sample_app/core/extensions/screen_utils.dart';
 
 import '../../../../../core/common/skeleton_widget.dart';
 
+/// A widget that displays a loading skeleton for a Todo List
 class SkeletonTodoWidget extends StatelessWidget {
   const SkeletonTodoWidget({Key? key}) : super(key: key);
 
@@ -21,6 +22,7 @@ class SkeletonTodoWidget extends StatelessWidget {
     );
   }
 
+  /// Builds the header section of the skeleton loading
   Widget _buildHeader() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,6 +49,7 @@ class SkeletonTodoWidget extends StatelessWidget {
     );
   }
 
+  /// Builds the list section of the skeleton loading
   Widget _buildList() {
     return Expanded(
       child: ListView.builder(

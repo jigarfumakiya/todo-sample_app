@@ -6,7 +6,7 @@ import 'package:todo_sample_app/core/network/dio_service.dart';
 import 'package:todo_sample_app/feature/todo/data/models/todo_network.dart';
 
 abstract class TodoRemoteSource {
-  // This should be in there own repo, usecase and other stuff
+  // This should be in there own repo, usescases and other stuff
   // This is just for test purposes
   Future<void> getAuthToken();
 
@@ -14,9 +14,9 @@ abstract class TodoRemoteSource {
 
   Future<List<TodoNetwork>> getTodo(String timestamp);
 
-  Future<dynamic> addTodo();
+  Future<dynamic> addTodo(Fields fields);
 
-  Future<void> updateTodo(String documentId, Fields fields);
+  Future<Document> updateTodo(String documentId, Fields fields);
 }
 
 class TodoEndpoints {
@@ -40,24 +40,16 @@ class TodoRemoteSourceImpl implements TodoRemoteSource {
   final DioService dioService;
 
   @override
-  Future addTodo() async {
-    final data = {
-      "fields": {
-        "date": {"integerValue": "1664072803"},
-        "categoryId": {"stringValue": "DDQeCPpZATcLfV9U3I0v"},
-        "name": {"stringValue": "testing"},
-        "isCompleted": {"booleanValue": false}
-      }
-    };
-
+  Future addTodo(Fields fields) async {
     try {
       final queryParams = {'key': firebaseApiKey};
       final response = await dioService.post(TodoEndpoints.addTodo,
-          queryParameters: queryParams, data: data);
+          queryParameters: queryParams, data: fields.toJson());
       final responseMap = (response.data as Map<String, dynamic>);
       return TodoNetwork.fromJson(responseMap);
     } catch (e, s) {
-      throw ServerException();
+      // We can generic error handling classes
+      throw ServerException(addTodoFailedMessage);
     }
   }
 
@@ -82,7 +74,7 @@ class TodoRemoteSourceImpl implements TodoRemoteSource {
       dioService.dioDataSource.setAccessToken(accessToken);
     } catch (e, s) {
       print(s);
-      throw ServerException();
+      throw ServerException(authFailedMessage);
     }
   }
 
@@ -125,12 +117,12 @@ class TodoRemoteSourceImpl implements TodoRemoteSource {
       return todoFromJson(jsonEncode(response.data));
     } catch (e, s) {
       print(s);
-      throw ServerException();
+      throw ServerException(todoFailedMessage);
     }
   }
 
   @override
-  Future<void> updateTodo(
+  Future<Document> updateTodo(
     String documentId,
     Fields fields,
   ) async {
@@ -141,9 +133,9 @@ class TodoRemoteSourceImpl implements TodoRemoteSource {
       final response = await dioService.patch(updateEndpoint,
           queryParameters: queryParams, data: fields.toJson());
       final responseMap = (response.data as Map<String, dynamic>);
-      // return TodoNetwork.fromJson(responseMap);
+      return Document.fromJson(responseMap);
     } catch (e, s) {
-      throw ServerException();
+      throw ServerException(updateTodoFailedMessage);
     }
   }
 }

@@ -11,8 +11,9 @@ import 'package:todo_sample_app/feature/todo/presentation/home/widget/skeleton_t
 import 'package:todo_sample_app/feature/todo/presentation/home/widget/todo_list_item_widget.dart';
 import 'package:todo_sample_app/feature/todo/presentation/home/widget/todo_list_widget.dart';
 
+/// TodoDashboardWidget is a stateful widget that displays a dashboard for the todos
 class TodoDashboardWidget extends StatefulWidget {
-  TodoDashboardWidget({Key? key}) : super(key: key);
+  const TodoDashboardWidget({Key? key}) : super(key: key);
 
   @override
   State<TodoDashboardWidget> createState() => _TodoDashboardWidgetState();
@@ -183,65 +184,41 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
   }
 
   void inCompleteStatusChange(TodoNetwork todos) {
-    /// Update the UI
-    /// Remove the data from incomplete list
-    final inCompleteTodo = todoCubit.inCompletedTodos;
-    final removeIndex = inCompleteTodo.indexOf(todos);
-
-    //Remove data from list
-    _inCompleteAnimatedListKey.currentState?.removeItem(
-      removeIndex,
-      (context, animation) {
-        return _buildRemovedItem(todos, context, animation);
-      },
-    );
-    todoCubit.inCompletedTodos.removeAt(removeIndex);
-
-    /// Add data to complete list
-    ///
-    final fields = todos.document.fields
-        .copyWith(isCompleted: IsCompleted(booleanValue: true));
-    final doc = todos.document.copyWith(fields: fields);
-
-    final updatedTodo = todos.copyWith(document: doc);
-    todoCubit.completedTodos.add(updatedTodo);
-
-    todoCubit.updateTodoStatus(
-        updatedTodo, todoCubit.inCompletedTodos, todoCubit.completedTodos);
-
-    /// Set index to trigger the animation
-    _completeAnimatedListKey.currentState
-        ?.insertItem(todoCubit.completedTodos.indexOf(updatedTodo));
+    _statusChange(todos, todoCubit.inCompletedTodos, _inCompleteAnimatedListKey,
+        todoCubit.completedTodos, _completeAnimatedListKey);
   }
 
   void completeStatusChange(TodoNetwork todos) {
-    /// Update the UI
-    /// Remove the data from complete list
-    final completeTodo = todoCubit.completedTodos;
-    final removeIndex = completeTodo.indexOf(todos);
+    _statusChange(todos, todoCubit.completedTodos, _completeAnimatedListKey,
+        todoCubit.inCompletedTodos, _inCompleteAnimatedListKey);
+  }
 
-    //Remove data from list
-    _completeAnimatedListKey.currentState?.removeItem(
+  //Internal method to change todo status
+  void _statusChange(
+      TodoNetwork todos,
+      List<TodoNetwork> fromList,
+      GlobalKey<AnimatedListState> fromKey,
+      List<TodoNetwork> toList,
+      GlobalKey<AnimatedListState> toKey) {
+    final removeIndex = fromList.indexOf(todos);
+
+    fromKey.currentState?.removeItem(
       removeIndex,
       (context, animation) {
         return _buildRemovedItem(todos, context, animation);
       },
     );
-    todoCubit.completedTodos.removeAt(removeIndex);
+    fromList.removeAt(removeIndex);
 
-    /// Add data to incomplete list
-    ///
-    final fields = todos.document.fields
-        .copyWith(isCompleted: IsCompleted(booleanValue: false));
+    final fields = todos.document.fields.copyWith(
+        isCompleted:
+            IsCompleted(booleanValue: fromList == todoCubit.completedTodos));
     final doc = todos.document.copyWith(fields: fields);
 
     final updatedTodo = todos.copyWith(document: doc);
-    todoCubit.inCompletedTodos.add(updatedTodo);
+    toList.add(updatedTodo);
 
-    /// Set index to trigger the animation
-    final newIndex = todoCubit.inCompletedTodos.indexOf(updatedTodo);
-
-    _inCompleteAnimatedListKey.currentState!.insertItem(newIndex);
+    toKey.currentState?.insertItem(toList.indexOf(updatedTodo));
 
     todoCubit.updateTodoStatus(
         updatedTodo, todoCubit.inCompletedTodos, todoCubit.completedTodos);

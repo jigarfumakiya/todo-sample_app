@@ -15,6 +15,10 @@ class AuthLoading extends TodoState {
 }
 
 class AuthFailed extends TodoState {
+  final String cause;
+
+  AuthFailed(this.cause);
+
   @override
   List<Object> get props => [];
 }
@@ -53,6 +57,15 @@ class TodoFailure extends TodoState {
   final String message;
 
   TodoFailure(this.message);
+
+  @override
+  List<Object> get props => [message];
+}
+
+class TodoUpdatedMessage extends TodoState {
+  final String message;
+
+  TodoUpdatedMessage(this.message);
 
   @override
   List<Object> get props => [message];

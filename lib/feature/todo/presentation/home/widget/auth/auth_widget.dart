@@ -18,7 +18,11 @@ class AuthWidget extends StatelessWidget {
           if (state is AuthLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is AuthFailed) {
-            return const Center(child: Text('Auth is Failed'));
+            return Center(
+                child: Text(
+              state.cause,
+              style: Theme.of(context).textTheme.bodyText2,
+            ));
           } else if (state is AuthCompleted) {
             return TodoDashboardWidget();
           }
