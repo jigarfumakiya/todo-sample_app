@@ -171,13 +171,14 @@ class _AddTodoWidgetState extends State<AddTodoWidget> {
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
+          title: const Text('New todo added'),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text('Successfully added new to-do item'),
+              const Text('Successfully added new to-do item'),
               SizedBox(height: 10.toHeight),
               AppPrimaryButton(
                 onTap: () {
