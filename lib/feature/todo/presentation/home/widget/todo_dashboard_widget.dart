@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_sample_app/core/app/app_colors.dart';
-import 'package:todo_sample_app/core/app/app_routes.dart';
 import 'package:todo_sample_app/core/extensions/date.dart';
 import 'package:todo_sample_app/core/extensions/screen_utils.dart';
 import 'package:todo_sample_app/core/injector/injection_container.dart';
@@ -12,6 +11,8 @@ import 'package:todo_sample_app/feature/todo/presentation/home/widget/date_widge
 import 'package:todo_sample_app/feature/todo/presentation/home/widget/skeleton_todo.dart';
 import 'package:todo_sample_app/feature/todo/presentation/home/widget/todo_list_item_widget.dart';
 import 'package:todo_sample_app/feature/todo/presentation/home/widget/todo_list_widget.dart';
+
+import '../../../../../core/app/app_routes.dart';
 
 /// TodoDashboardWidget is a stateful widget that displays a dashboard for the todos
 class TodoDashboardWidget extends StatefulWidget {

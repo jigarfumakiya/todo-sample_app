@@ -9,4 +9,9 @@ extension DateExtension on DateTime {
     final date = DateFormat('yyyy-MM-dd').parse(toIso8601String());
     return (date.toUtc().millisecondsSinceEpoch / 1000).toInt().toString();
   }
+
+  String toDDMMYYYY() {
+    return DateFormat('dd-MM-yyyy').format(this);
+    (this);
+  }
 }

@@ -6,6 +6,7 @@ import 'package:todo_sample_app/core/network/dio_service.dart';
 import 'package:todo_sample_app/core/network/refresh_token_usecase.dart';
 import 'package:todo_sample_app/feature/todo/data/datasources/todo_remote_source.dart';
 import 'package:todo_sample_app/feature/todo/domain/repositories/todo_repositorie.dart';
+import 'package:todo_sample_app/feature/todo/presentation/addTodo/bloc/add_todo_cubit.dart';
 import 'package:todo_sample_app/feature/todo/presentation/home/bloc/todo_cubit.dart';
 
 import '../../feature/todo/data/repositories/todo_repositorie_impl.dart';
@@ -14,9 +15,10 @@ import '../../feature/todo/domain/usecase/todo_usecase.dart';
 final sl = GetIt.instance;
 
 Future<void> init({bool isMock = true}) async {
-  // Bloc
+  //? Bloc
   sl.registerFactory(() => AppCubit());
   sl.registerFactory(() => TodoCubit(sl()));
+  sl.registerFactory(() => AddTodoCubit(sl()));
 
   //? Service
   sl.registerLazySingleton(

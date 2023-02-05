@@ -14,7 +14,7 @@ abstract class TodoRemoteSource {
 
   Future<List<TodoNetwork>> getTodo(String timestamp);
 
-  Future<dynamic> addTodo(Fields fields);
+  Future<Document> addTodo(Fields fields);
 
   Future<Document> updateTodo(String documentId, Fields fields);
 }
@@ -40,13 +40,13 @@ class TodoRemoteSourceImpl implements TodoRemoteSource {
   final DioService dioService;
 
   @override
-  Future addTodo(Fields fields) async {
+  Future<Document> addTodo(Fields fields) async {
     try {
       final queryParams = {'key': firebaseApiKey};
       final response = await dioService.post(TodoEndpoints.addTodo,
           queryParameters: queryParams, data: fields.toJson());
       final responseMap = (response.data as Map<String, dynamic>);
-      return TodoNetwork.fromJson(responseMap);
+      return Document.fromJson(responseMap);
     } catch (e, s) {
       // We can generic error handling classes
       throw ServerException(addTodoFailedMessage);
