@@ -5,8 +5,11 @@
 💡 A to-do app with a twist! 🎉 Not only can you see your incomplete and completed tasks, but you can also add new to-dos with a date and enjoy a smooth animation. 🤩 The app is built using Flutter Clean Architecture for a clean and organized codebase. 💻 Get organized and have fun with this Todo app!
 
 Here is the demo
+Todos             |  Add Todo
+:-------------------------:|:-------------------------:
+![](https://user-images.githubusercontent.com/11865669/216980696-450ea0aa-650b-45ad-a070-abb4f679d2e4.mov)  |  ![](https://user-images.githubusercontent.com/11865669/216994996-c9c5090e-d4b9-4e0d-b468-01ad2a806c31.mp4)
 
-https://user-images.githubusercontent.com/11865669/216980696-450ea0aa-650b-45ad-a070-abb4f679d2e4.mov
+
 
 
 
@@ -33,6 +36,7 @@ https://user-images.githubusercontent.com/11865669/216980696-450ea0aa-650b-45ad-
     - [x] Unit Test
     - [x] Widget Test
     - [x] BLoC test
+- [x] Internet Checking    
 - [x] Add new todos with date
 - [x] Show Completed todos
 - [x] Show Incomplete todos
