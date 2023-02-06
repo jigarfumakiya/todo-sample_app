@@ -1,5 +1,9 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo_sample_app/core/extensions/date.dart';
+import 'package:todo_sample_app/core/injector/injection_container.dart';
 import 'package:todo_sample_app/feature/todo/presentation/addTodo/widget/add_todo_widget.dart';
+import 'package:todo_sample_app/feature/todo/presentation/home/bloc/todo_cubit.dart';
 import 'package:todo_sample_app/feature/todo/presentation/home/widget/todo_dashboard_widget.dart';
 import 'package:todo_sample_app/landing_widget.dart';
 
@@ -27,7 +31,11 @@ class AppRoutes {
       GoRoute(
           path: Routes.dashboard.path,
           name: Routes.dashboard.name,
-          builder: (context, state) => TodoDashboardWidget(),
+          builder: (context, state) => BlocProvider(
+                create: (_) => sl<TodoCubit>()
+                  ..getTodosFromNetwork(DateTime.now().toTimeStamp()),
+                child: const TodoDashboardWidget(),
+              ),
           routes: []),
       GoRoute(
         path: Routes.addTodo.path,

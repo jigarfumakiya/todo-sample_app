@@ -15,7 +15,7 @@ import '../../feature/todo/domain/usecase/todo_usecase.dart';
 
 final sl = GetIt.instance;
 
-Future<void> init({bool isMock = true}) async {
+Future<void> init({bool isMock = false}) async {
   if (isMock) {
     WidgetsFlutterBinding.ensureInitialized();
     sl.reset();

@@ -38,22 +38,31 @@ class _DateWidgetState extends State<DateWidget> {
     final textTheme = Theme.of(context).textTheme;
     return GestureDetector(
       onTap: () => showDateDialog(context),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
+      child: Wrap(
         children: [
           Text(
             selectedDate.toTodoDate(),
             style: textTheme.headline1!.copyWith(letterSpacing: 0),
           ),
-          const SizedBox(width: 5),
           const Icon(
-            Icons.keyboard_arrow_down_outlined,
+            Icons.keyboard_arrow_down,
             color: AppColors.blueColor,
-          ),
+          )
         ],
       ),
     );
   }
+
+  // Row(
+  // children: [
+  //
+  // const SizedBox(width: 5),
+  // const Icon(
+  // Icons.keyboard_arrow_down_outlined,
+  // color: AppColors.blueColor,
+  // ),
+  // ],
+  // )
 
   /// class methods
   /// Show the calendar dialog.

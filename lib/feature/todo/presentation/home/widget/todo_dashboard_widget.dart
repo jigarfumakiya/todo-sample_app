@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:todo_sample_app/core/app/app_colors.dart';
 import 'package:todo_sample_app/core/extensions/date.dart';
 import 'package:todo_sample_app/core/extensions/screen_utils.dart';
-import 'package:todo_sample_app/core/injector/injection_container.dart';
 import 'package:todo_sample_app/feature/todo/data/models/todo_network.dart';
 import 'package:todo_sample_app/feature/todo/presentation/home/bloc/todo_cubit.dart';
 import 'package:todo_sample_app/feature/todo/presentation/home/widget/date_widget.dart';
@@ -29,17 +28,12 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
       GlobalKey<AnimatedListState>();
 
   TextTheme? textTheme;
-  final todoCubit = sl<TodoCubit>();
+  TodoCubit? todoCubit;
   DateTime selectedDate = DateTime.now();
 
   @override
-  void initState() {
-    todoCubit.getTodosFromNetwork(DateTime.now().toTimeStamp());
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    todoCubit = BlocProvider.of<TodoCubit>(context, listen: false);
     textTheme = Theme.of(context).textTheme;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -54,7 +48,7 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: BlocConsumer<TodoCubit, TodoState>(
-        bloc: todoCubit,
+        // bloc: todoCubit,
         listener: (context, state) {
           if (state is TodoUpdatedMessage) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -94,7 +88,7 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 20.toHeight),
+        SizedBox(height: 10.toHeight),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -199,17 +193,21 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
   /// class method
   void onDateChange(DateTime dateTime) {
     selectedDate = dateTime;
-    todoCubit.getTodosFromNetwork(dateTime.toTimeStamp());
+    todoCubit!.getTodosFromNetwork(dateTime.toTimeStamp());
   }
 
   void inCompleteStatusChange(TodoNetwork todos) {
-    _statusChange(todos, todoCubit.inCompletedTodos, _inCompleteAnimatedListKey,
-        todoCubit.completedTodos, _completeAnimatedListKey);
+    _statusChange(
+        todos,
+        todoCubit!.inCompletedTodos,
+        _inCompleteAnimatedListKey,
+        todoCubit!.completedTodos,
+        _completeAnimatedListKey);
   }
 
   void completeStatusChange(TodoNetwork todos) {
-    _statusChange(todos, todoCubit.completedTodos, _completeAnimatedListKey,
-        todoCubit.inCompletedTodos, _inCompleteAnimatedListKey);
+    _statusChange(todos, todoCubit!.completedTodos, _completeAnimatedListKey,
+        todoCubit!.inCompletedTodos, _inCompleteAnimatedListKey);
   }
 
   void floatingActionTap() {
@@ -245,8 +243,8 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
 
     toKey.currentState?.insertItem(toList.indexOf(updatedTodo));
 
-    todoCubit.updateTodoStatus(
-        updatedTodo, todoCubit.inCompletedTodos, todoCubit.completedTodos);
+    todoCubit!.updateTodoStatus(
+        updatedTodo, todoCubit!.inCompletedTodos, todoCubit!.completedTodos);
   }
 
   /// Widget that will show when removing items

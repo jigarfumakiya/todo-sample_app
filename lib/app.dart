@@ -20,7 +20,7 @@ class TodoApp extends StatelessWidget {
     return ScreenUtilInit(
       /// Set screen size to make responsive
       /// Almost all device
-      designSize: const Size(375, 667),
+      // designSize: const Size(375, 667),
       builder: (context, child) => MaterialApp.router(
         title: 'Todo App',
         debugShowCheckedModeBanner: false,

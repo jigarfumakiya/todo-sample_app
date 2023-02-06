@@ -21,7 +21,6 @@ class TodoListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     if (todos.isEmpty) {
       /// Return the EmptyTodoState widget when there are no todos
-
       return const EmptyTodoState();
     }
 

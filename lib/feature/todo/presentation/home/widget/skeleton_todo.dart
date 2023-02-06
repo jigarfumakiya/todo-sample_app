@@ -30,18 +30,18 @@ class SkeletonTodoWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SkeletonWidget(
+            Skeleton_todo_widget_test(
               height: 40.toHeight,
               width: 220.toWidth,
             ),
-            SkeletonWidget(
+            Skeleton_todo_widget_test(
               height: 40.toHeight,
               width: 50.toWidth,
             ),
           ],
         ),
         const SizedBox(height: 10),
-        SkeletonWidget(
+        Skeleton_todo_widget_test(
           height: 10.toHeight,
           width: 100.toWidth,
         ),
@@ -61,7 +61,7 @@ class SkeletonTodoWidget extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SkeletonWidget(
+                Skeleton_todo_widget_test(
                   height: 40.toHeight,
                   width: 40.toWidth,
                 ),
@@ -69,12 +69,12 @@ class SkeletonTodoWidget extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    SkeletonWidget(
+                    Skeleton_todo_widget_test(
                       height: 30.toHeight,
                       width: 250.toWidth,
                     ),
                     const SizedBox(height: 10),
-                    SkeletonWidget(
+                    Skeleton_todo_widget_test(
                       height: 10.toHeight,
                       width: 100.toWidth,
                     ),

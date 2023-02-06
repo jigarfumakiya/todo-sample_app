@@ -7,3 +7,4 @@ const String addTodoFailedMessage =
     'The todo could not be added due to a server error. Our team has been notified and is working on a resolution. Please try again later';
 const String updateTodoFailedMessage =
     'An error occurred while updating the todo. Please try again later';
+const emptyTodoMessage = '📝 Add your first task!\n 💪 Let\'s get started! 🎉';

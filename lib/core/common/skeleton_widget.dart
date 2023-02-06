@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-class SkeletonWidget extends StatelessWidget {
-  const SkeletonWidget({
+class Skeleton_todo_widget_test extends StatelessWidget {
+  const Skeleton_todo_widget_test({
     Key? key,
     required this.height,
     required this.width,

@@ -29,6 +29,7 @@ class AppTheme {
           borderRadius: BorderRadius.circular(6),
         ),
       ),
+
       textTheme: GoogleFonts.interTextTheme().copyWith(
         headline1: AppTextStyles.font30w300(),
         headline2: AppTextStyles.font58w300(),
