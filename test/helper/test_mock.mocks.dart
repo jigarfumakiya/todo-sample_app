@@ -14,6 +14,8 @@ import 'package:todo_sample_app/feature/todo/data/models/todo_network.dart'
     as _i3;
 import 'package:todo_sample_app/feature/todo/domain/repositories/todo_repositorie.dart'
     as _i4;
+import 'package:todo_sample_app/feature/todo/domain/usecase/todo_usecase.dart'
+    as _i8;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -212,4 +214,90 @@ class MockTodoRemoteSource extends _i1.Mock implements _i7.TodoRemoteSource {
           ),
         )),
       ) as _i5.Future<_i3.Document>);
+}
+
+/// A class which mocks [TodoUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockTodoUseCase extends _i1.Mock implements _i8.TodoUseCase {
+  MockTodoUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<_i2.Either<_i6.Failure, String>> getAuthToken() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAuthToken,
+          [],
+        ),
+        returnValue: _i5.Future<_i2.Either<_i6.Failure, String>>.value(
+            _FakeEither_0<_i6.Failure, String>(
+          this,
+          Invocation.method(
+            #getAuthToken,
+            [],
+          ),
+        )),
+      ) as _i5.Future<_i2.Either<_i6.Failure, String>>);
+  @override
+  _i5.Future<_i2.Either<_i6.Failure, List<_i3.TodoNetwork>>> getTodos(
+          String? timeStemp) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getTodos,
+          [timeStemp],
+        ),
+        returnValue:
+            _i5.Future<_i2.Either<_i6.Failure, List<_i3.TodoNetwork>>>.value(
+                _FakeEither_0<_i6.Failure, List<_i3.TodoNetwork>>(
+          this,
+          Invocation.method(
+            #getTodos,
+            [timeStemp],
+          ),
+        )),
+      ) as _i5.Future<_i2.Either<_i6.Failure, List<_i3.TodoNetwork>>>);
+  @override
+  _i5.Future<_i2.Either<_i6.Failure, _i3.Document>> updateTodos(
+    String? documentId,
+    _i3.Fields? fields,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateTodos,
+          [
+            documentId,
+            fields,
+          ],
+        ),
+        returnValue: _i5.Future<_i2.Either<_i6.Failure, _i3.Document>>.value(
+            _FakeEither_0<_i6.Failure, _i3.Document>(
+          this,
+          Invocation.method(
+            #updateTodos,
+            [
+              documentId,
+              fields,
+            ],
+          ),
+        )),
+      ) as _i5.Future<_i2.Either<_i6.Failure, _i3.Document>>);
+  @override
+  _i5.Future<_i2.Either<_i6.Failure, _i3.Document>> addTodos(
+          _i3.Fields? fields) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #addTodos,
+          [fields],
+        ),
+        returnValue: _i5.Future<_i2.Either<_i6.Failure, _i3.Document>>.value(
+            _FakeEither_0<_i6.Failure, _i3.Document>(
+          this,
+          Invocation.method(
+            #addTodos,
+            [fields],
+          ),
+        )),
+      ) as _i5.Future<_i2.Either<_i6.Failure, _i3.Document>>);
 }
