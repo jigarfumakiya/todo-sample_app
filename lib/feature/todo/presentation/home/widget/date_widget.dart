@@ -38,7 +38,7 @@ class _DateWidgetState extends State<DateWidget> {
     final textTheme = Theme.of(context).textTheme;
     return GestureDetector(
       onTap: () => showDateDialog(context),
-      child: Wrap(
+      child: Row(
         children: [
           Text(
             selectedDate.toTodoDate(),

@@ -28,7 +28,7 @@
     - [x] BLoC test
 - [x] Add new todos with date
 - [x] Show Completed todos
-- [x] Show Completed todos
+- [x] Show Incomplete todos
 
 ### 📁 Project Structure:
 Check out the detailed structure in the code!
