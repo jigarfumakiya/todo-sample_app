@@ -43,6 +43,7 @@ class TodoCubit extends Cubit<TodoState> {
   Future<void> getTodosFromNetwork(String timeStamp) async {
     print('Selected Timestmp $timeStamp');
     emit(TodoLoading());
+
     try {
       final todos = await _todoUseCase.getTodos(timeStamp);
       todos.fold((failure) {
@@ -56,6 +57,19 @@ class TodoCubit extends Cubit<TodoState> {
             .where((element) =>
                 element.document.fields.isCompleted.booleanValue == false)
             .toList(growable: true);
+
+        // Sort array
+        completedTodos.sort(
+          (a, b) {
+            return b.document.createTime.compareTo(a.document.createTime);
+          },
+        );
+        inCompletedTodos.sort(
+          (a, b) {
+            return b.document.createTime.compareTo(a.document.createTime);
+          },
+        );
+
         emit(TodoLoaded(completedTodos, inCompletedTodos));
       });
     } catch (e, s) {

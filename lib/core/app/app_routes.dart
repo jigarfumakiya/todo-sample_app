@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+import 'package:go_router_flow/go_router_flow.dart';
 import 'package:todo_sample_app/core/extensions/date.dart';
 import 'package:todo_sample_app/core/injector/injection_container.dart';
 import 'package:todo_sample_app/feature/todo/presentation/addTodo/widget/add_todo_widget.dart';
@@ -34,7 +34,7 @@ class AppRoutes {
           builder: (context, state) => BlocProvider(
                 create: (_) => sl<TodoCubit>()
                   ..getTodosFromNetwork(DateTime.now().toTimeStamp()),
-                child: const TodoDashboardWidget(),
+                child: TodoDashboardWidget(),
               ),
           routes: []),
       GoRoute(

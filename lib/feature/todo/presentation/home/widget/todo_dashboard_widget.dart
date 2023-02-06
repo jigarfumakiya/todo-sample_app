@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+import 'package:go_router_flow/go_router_flow.dart';
 import 'package:todo_sample_app/core/app/app_colors.dart';
 import 'package:todo_sample_app/core/extensions/date.dart';
 import 'package:todo_sample_app/core/extensions/screen_utils.dart';
@@ -210,8 +210,12 @@ class _TodoDashboardWidgetState extends State<TodoDashboardWidget> {
         todoCubit!.inCompletedTodos, _inCompleteAnimatedListKey);
   }
 
-  void floatingActionTap() {
-    context.push(Routes.addTodo.path);
+  Future<void> floatingActionTap() async {
+    final result = await context.push(Routes.addTodo.path);
+    if (true) {
+      // it mean user has added data refresh the screen
+      todoCubit!.getTodosFromNetwork(selectedDate.toTimeStamp());
+    }
   }
 
   //Internal method to change todo status

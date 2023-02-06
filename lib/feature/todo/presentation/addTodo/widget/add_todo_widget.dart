@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+import 'package:go_router_flow/go_router_flow.dart';
 import 'package:todo_sample_app/core/app/app_colors.dart';
-import 'package:todo_sample_app/core/app/app_routes.dart';
 import 'package:todo_sample_app/core/common/app_date_dialog.dart';
 import 'package:todo_sample_app/core/common/app_primary_button.dart';
 import 'package:todo_sample_app/core/common/app_text_field.dart';
@@ -186,8 +185,9 @@ class _AddTodoWidgetState extends State<AddTodoWidget> {
               SizedBox(height: 10.toHeight),
               AppPrimaryButton(
                 onTap: () {
-                  // Todo change this logic find a way to send back user
-                  context.go(Routes.dashboard.path);
+                  // close the dialog
+                  Navigator.of(context).pop();
+                  context.pop(true);
                 },
                 child: const Text('Go back'),
               ),
