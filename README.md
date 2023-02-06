@@ -4,8 +4,6 @@
 
 💡 A to-do app with a twist! 🎉 Not only can you see your incomplete and completed tasks, but you can also add new to-dos with a date and enjoy a smooth animation. 🤩 The app is built using Flutter Clean Architecture for a clean and organized codebase. 💻 Get organized and have fun with this Todo app!
 
-https://user-images.githubusercontent.com/1531684/161389636-9802a444-2fac-41b2-83a7-c031f9e5d2d9.mp4?width=350
-
 ## ⚙️ Pre-requisites:
 
 | Technology | Recommended Version | Installation Guide                                                    |
