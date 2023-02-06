@@ -1,16 +1,91 @@
-# todo_sample_app
+<br>
 
-A new Flutter project.
+# Todo Sample 📱
 
-## Getting Started
+💡 A to-do app with a twist! 🎉 Not only can you see your incomplete and completed tasks, but you can also add new to-dos with a date and enjoy a smooth animation. 🤩 The app is built using Flutter Clean Architecture for a clean and organized codebase. 💻 Get organized and have fun with this Todo app!
 
-This project is a starting point for a Flutter application.
+https://user-images.githubusercontent.com/1531684/161389636-9802a444-2fac-41b2-83a7-c031f9e5d2d9.mp4?width=350
 
-A few resources to get you started if this is your first Flutter project:
+## ⚙️ Pre-requisites:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+| Technology | Recommended Version | Installation Guide                                                    |
+|------------|---------------------|-----------------------------------------------------------------------|
+| Flutter    | v3.0.4              | [Flutter Official Docs](https://flutter.dev/docs/get-started/install) |
+| Dart       | v2.17.5             | Installed automatically with Flutter                                  |
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🚀 Getting started is easy!
+
+- Clone this project
+- Run `flutter pub get`
+- Run `flutter gen-l10n` to generate localization files
+- Run `flutter pub run build_runner build --delete-conflicting-outputs` to generate freezes files
+- Run Test `flutter test`
+
+## 🎉 Features included:
+
+- [x] BLoC State Management
+- [x] **Clean Architecture**
+    - [x] Unit Test
+    - [x] Widget Test
+    - [x] BLoC test
+- [x] Add new todos with date
+- [x] Show Completed todos
+- [x] Show Completed todos
+
+### 📁 Project Structure:
+Check out the detailed structure in the code!
+
+
+
+
+````
+
+lib/
+├── config.dart
+├── core
+│   ├── app
+│   │   ├── app_assets.dart
+│   │   ├── app_colors.dart
+│   │   └── app_constant.dart
+│   │   └── app_routes.dart
+│   │   └── app_text_style.dart
+│   │   └── app_text_theme.dart
+│   │   └── storage_utils.dart
+│   ├── common
+│   │   ├── other common widgets uses global 
+│   ├── exceptions
+│   │   ├── app_exceptions.dart
+│   │   ├── other common widgets uses global
+│   ├── extensions
+│   │   ├── your custom extension for app
+│   ├── helpers
+│   │   ├── helpers methods
+│   ├── injectors
+│   │   ├── di 
+│   ├── network
+│   │   ├── dio_service.dart
+│   │   ├── other network files
+├── features
+│   ├── todo
+│   │   ├── data
+│   │   │   ├── datasources
+│   │   │   ├── models
+│   │   │   └── repositories
+│   │   ├── domain
+│   │   │   ├── repositories
+│   │   │   └── usecases
+│   │   └── presentation
+│   │       ├── addTodo
+│   │       │   ├── bloc
+│   │       │   ├── widget
+│   │       └── home
+│   │           ├── bloc
+│   │           ├── widget
+├── app.dart
+├── app_cubit.dart
+├── app_state.dart
+├── landing_widget.dart
+├── main.dart
+
+````
+
