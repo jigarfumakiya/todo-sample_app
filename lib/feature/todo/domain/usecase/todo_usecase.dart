@@ -11,7 +11,7 @@ class TodoUseCase {
   TodoUseCase(this._todoRepository);
 
   /// This method will get authentication token from repository.
-  Future<void> getAuthToken() {
+  Future<Either<Failure, String>> getAuthToken() {
     return _todoRepository.getAuthToken();
   }
 
