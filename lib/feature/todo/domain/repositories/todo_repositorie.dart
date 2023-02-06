@@ -5,7 +5,7 @@ import 'package:todo_sample_app/feature/todo/data/models/todo_network.dart';
 abstract class TodoRepository {
 // this here just for test purpose
 // Unless this should be in there own auth repo
-  Future<dynamic> getAuthToken();
+  Future<Either<Failure, String>> getAuthToken();
 
   Future<dynamic> getCategories();
 

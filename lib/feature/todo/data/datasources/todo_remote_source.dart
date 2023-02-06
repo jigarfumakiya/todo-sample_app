@@ -8,7 +8,7 @@ import 'package:todo_sample_app/feature/todo/data/models/todo_network.dart';
 abstract class TodoRemoteSource {
   // This should be in there own repo, usescases and other stuff
   // This is just for test purposes
-  Future<void> getAuthToken();
+  Future<String> getAuthToken();
 
   Future<dynamic> getCategories();
 
@@ -55,7 +55,7 @@ class TodoRemoteSourceImpl implements TodoRemoteSource {
   }
 
   @override
-  Future<void> getAuthToken() async {
+  Future<String> getAuthToken() async {
     try {
       final data = {
         "email": "test@test.com",
@@ -73,6 +73,7 @@ class TodoRemoteSourceImpl implements TodoRemoteSource {
       final accessToken = (response.data as Map)['idToken'];
       // set custom token our data source
       dioService.dioDataSource.setAccessToken(accessToken);
+      return accessToken;
     } catch (e, s) {
       print(s);
       throw ServerException(authFailedMessage);

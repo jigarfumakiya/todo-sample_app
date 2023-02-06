@@ -25,9 +25,14 @@ class TodoRepositoryImpl implements TodoRepository {
   /// Method to retrieve the authentication token and save it for later use.
   /// Returns the auth token from the remote source.
   @override
-  Future<void> getAuthToken() {
+  Future<Either<Failure, String>> getAuthToken() async {
     // this methods will get token and save for later usecase
-    return remoteSource.getAuthToken();
+    try {
+      final accessToken = await remoteSource.getAuthToken();
+      return Right(accessToken);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    }
   }
 
   /// Method to retrieve todo items based on the time stamp.
@@ -60,7 +65,6 @@ class TodoRepositoryImpl implements TodoRepository {
 
   @override
   Future getCategories() {
-    // TODO: implement getCategories
     throw UnimplementedError();
   }
 }
