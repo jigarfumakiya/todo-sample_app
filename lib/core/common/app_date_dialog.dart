@@ -65,7 +65,7 @@ class AppDateDialog {
               titleCentered: true,
               rightChevronIcon: Icon(
                 Icons.arrow_forward_ios_outlined,
-                color: Colors.white,
+                color: Colors.black,
               ),
               leftChevronIcon: Icon(
                 Icons.arrow_back_ios,

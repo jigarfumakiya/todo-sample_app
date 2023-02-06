@@ -134,7 +134,11 @@ class _AddTodoWidgetState extends State<AddTodoWidget> {
           ),
           SizedBox(height: 10.toHeight),
           GestureDetector(
-            onTap: showDateDialog,
+            onTap: () {
+              // to close the keybored
+              FocusScope.of(context).unfocus();
+              showDateDialog();
+            },
             child: AbsorbPointer(
               child: AppTextField(
                 controller: _dateTextEditingController,

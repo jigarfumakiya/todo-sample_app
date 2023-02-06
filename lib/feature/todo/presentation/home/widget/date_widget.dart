@@ -53,17 +53,6 @@ class _DateWidgetState extends State<DateWidget> {
     );
   }
 
-  // Row(
-  // children: [
-  //
-  // const SizedBox(width: 5),
-  // const Icon(
-  // Icons.keyboard_arrow_down_outlined,
-  // color: AppColors.blueColor,
-  // ),
-  // ],
-  // )
-
   /// class methods
   /// Show the calendar dialog.
   Future<void> showDateDialog(BuildContext context) async {
@@ -113,12 +102,9 @@ class _DateWidgetState extends State<DateWidget> {
               titleCentered: true,
               rightChevronIcon: Icon(
                 Icons.arrow_forward_ios_outlined,
-                color: Colors.white,
-              ),
-              leftChevronIcon: Icon(
-                Icons.arrow_back_ios,
                 color: Colors.black,
-              )),
+              ),
+              leftChevronIcon: Icon(Icons.arrow_back_ios, color: Colors.black)),
           calendarStyle: CalendarStyle(
               isTodayHighlighted: false,
               defaultTextStyle:

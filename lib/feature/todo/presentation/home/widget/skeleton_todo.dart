@@ -14,6 +14,7 @@ class SkeletonTodoWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          const SizedBox(height: 20),
           _buildHeader(),
           const SizedBox(height: 20),
           _buildList()
