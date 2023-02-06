@@ -44,5 +44,6 @@ class AppRoutes {
         routes: [],
       ),
     ],
+    initialLocation: Routes.root.path,
   );
 }
